@@ -1,0 +1,3104 @@
+{
+    "players": [
+        {
+            "id": 1,
+            "name": "Ederson",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Ederson            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 31
+        },
+        {
+            "id": 2,
+            "name": "Stefan Ortega",
+            "nation": "Germany",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Stefan Ortega            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 18
+        },
+        {
+            "id": 3,
+            "name": "Scott Carson",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Scott Carson            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 33
+        },
+        {
+            "id": 4,
+            "name": "Rúben Dias",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Rúben Dias            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 3
+        },
+        {
+            "id": 5,
+            "name": "Abdukodir Khusanov",
+            "nation": "Uzbekistan",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Abdukodir Khusanov            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 45
+        },
+        {
+            "id": 6,
+            "name": "Vitor Reis",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Vitor Reis            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 22
+        },
+        {
+            "id": 7,
+            "name": "Manuel Akanji",
+            "nation": "Switzerland",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Manuel Akanji            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 25
+        },
+        {
+            "id": 8,
+            "name": "John Stones",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "John Stones            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 9,
+            "name": "Nathan Aké",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Nathan Aké            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 6
+        },
+        {
+            "id": 10,
+            "name": "Josko Gvardiol",
+            "nation": "Croatia",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Josko Gvardiol            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 24
+        },
+        {
+            "id": 11,
+            "name": "Rico Lewis",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Rico Lewis            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 82
+        },
+        {
+            "id": 12,
+            "name": "Rodri",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Rodri            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 16
+        },
+        {
+            "id": 13,
+            "name": "Nico González",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Nico González            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 14
+        },
+        {
+            "id": 14,
+            "name": "Matheus Nunes",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Matheus Nunes            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 27
+        },
+        {
+            "id": 15,
+            "name": "Mateo Kovacic",
+            "nation": "Croatia",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Mateo Kovacic            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 8
+        },
+        {
+            "id": 16,
+            "name": "İlkay Gündoğan",
+            "nation": "Germany",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "İlkay Gündoğan            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 19
+        },
+        {
+            "id": 17,
+            "name": "Bernardo Silva",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Bernardo Silva            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 20
+        },
+        {
+            "id": 18,
+            "name": "Kevin De Bruyne",
+            "nation": "Belgium",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Kevin De Bruyne  \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 17
+        },
+        {
+            "id": 19,
+            "name": "James McAtee",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "James McAtee            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 87
+        },
+        {
+            "id": 20,
+            "name": "Claudio Echeverri",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Claudio Echeverri            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 30
+        },
+        {
+            "id": 21,
+            "name": "Nico O'Reilly",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Nico O'Reilly            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 75
+        },
+        {
+            "id": 22,
+            "name": "Jérémy Doku",
+            "nation": "Belgium",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Jérémy Doku            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 23,
+            "name": "Jack Grealish",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Jack Grealish            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 10
+        },
+        {
+            "id": 24,
+            "name": "Phil Foden",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Phil Foden            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 47
+        },
+        {
+            "id": 25,
+            "name": "Savinho",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Savinho            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 26
+        },
+        {
+            "id": 26,
+            "name": "Oscar Bobb",
+            "nation": "Norway",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Oscar Bobb            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 52
+        },
+        {
+            "id": 27,
+            "name": "Erling Haaland",
+            "nation": "Norway",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Erling Haaland            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 28,
+            "name": "Omar Marmoush",
+            "nation": "Egypt",
+            "league": "Premier League",
+            "team": "Manchester City",
+            "position": "Omar Marmoush            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 7
+        },
+        {
+            "id": 29,
+            "name": "David Raya",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "David Raya            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 22
+        },
+        {
+            "id": 30,
+            "name": "Neto",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Neto            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 32
+        },
+        {
+            "id": 31,
+            "name": "William Saliba",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "William Saliba            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 2
+        },
+        {
+            "id": 32,
+            "name": "Gabriel Magalhães",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Gabriel Magalhães  \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 6
+        },
+        {
+            "id": 33,
+            "name": "Jakub Kiwior",
+            "nation": "Poland",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Jakub Kiwior            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 15
+        },
+        {
+            "id": 34,
+            "name": "Myles Lewis-Skelly",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Myles Lewis-Skelly            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 49
+        },
+        {
+            "id": 35,
+            "name": "Riccardo Calafiori",
+            "nation": "Italy",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Riccardo Calafiori            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 33
+        },
+        {
+            "id": 36,
+            "name": "Oleksandr Zinchenko",
+            "nation": "Ukraine",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Oleksandr Zinchenko            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 17
+        },
+        {
+            "id": 37,
+            "name": "Kieran Tierney",
+            "nation": "Scotland",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Kieran Tierney            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 3
+        },
+        {
+            "id": 38,
+            "name": "Jurrien Timber",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Jurrien Timber            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 12
+        },
+        {
+            "id": 39,
+            "name": "Ben White",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Ben White            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 40,
+            "name": "Takehiro Tomiyasu",
+            "nation": "Japan",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Takehiro Tomiyasu  \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 18
+        },
+        {
+            "id": 41,
+            "name": "Thomas Partey",
+            "nation": "Ghana",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Thomas Partey            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 5
+        },
+        {
+            "id": 42,
+            "name": "Jorginho",
+            "nation": "Italy",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Jorginho            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 20
+        },
+        {
+            "id": 43,
+            "name": "Declan Rice",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Declan Rice            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 41
+        },
+        {
+            "id": 44,
+            "name": "Mikel Merino",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Mikel Merino            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 23
+        },
+        {
+            "id": 45,
+            "name": "Martin Ødegaard",
+            "nation": "Norway",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Martin Ødegaard  \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 8
+        },
+        {
+            "id": 46,
+            "name": "Gabriel Martinelli",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Gabriel Martinelli            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 47,
+            "name": "Leandro Trossard",
+            "nation": "Belgium",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Leandro Trossard            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 19
+        },
+        {
+            "id": 48,
+            "name": "Bukayo Saka",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Bukayo Saka            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 7
+        },
+        {
+            "id": 49,
+            "name": "Ethan Nwaneri",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Ethan Nwaneri            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 53
+        },
+        {
+            "id": 50,
+            "name": "Raheem Sterling",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Raheem Sterling            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 30
+        },
+        {
+            "id": 51,
+            "name": "Kai Havertz",
+            "nation": "Germany",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Kai Havertz            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 29
+        },
+        {
+            "id": 52,
+            "name": "Gabriel Jesus",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Arsenal FC",
+            "position": "Gabriel Jesus  \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 53,
+            "name": "Robert Sánchez",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Robert Sánchez            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 1
+        },
+        {
+            "id": 54,
+            "name": "Filip Jørgensen",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Filip Jørgensen            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 12
+        },
+        {
+            "id": 55,
+            "name": "Mike Penders",
+            "nation": "Belgium",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Mike Penders            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 0
+        },
+        {
+            "id": 56,
+            "name": "Lucas Bergström",
+            "nation": "Finland",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Lucas Bergström            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 47
+        },
+        {
+            "id": 57,
+            "name": "Marcus Bettinelli",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Marcus Bettinelli            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 13
+        },
+        {
+            "id": 58,
+            "name": "Levi Colwill",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Levi Colwill            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 6
+        },
+        {
+            "id": 59,
+            "name": "Trevoh Chalobah",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Trevoh Chalobah            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 23
+        },
+        {
+            "id": 60,
+            "name": "Wesley Fofana",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Wesley Fofana  \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 29
+        },
+        {
+            "id": 61,
+            "name": "Benoît Badiashile",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Benoît Badiashile            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 62,
+            "name": "Tosin Adarabioyo",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Tosin Adarabioyo            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 63,
+            "name": "Aarón Anselmino",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Aarón Anselmino            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 30
+        },
+        {
+            "id": 64,
+            "name": "Marc Cucurella",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Marc Cucurella            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 3
+        },
+        {
+            "id": 65,
+            "name": "Malo Gusto",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Malo Gusto            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 27
+        },
+        {
+            "id": 66,
+            "name": "Reece James",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Reece James  \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 24
+        },
+        {
+            "id": 67,
+            "name": "Josh Acheampong",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Josh Acheampong            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 34
+        },
+        {
+            "id": 68,
+            "name": "Moisés Caicedo",
+            "nation": "Ecuador",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Moisés Caicedo            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 25
+        },
+        {
+            "id": 69,
+            "name": "Roméo Lavia",
+            "nation": "Belgium",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Roméo Lavia            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 45
+        },
+        {
+            "id": 70,
+            "name": "Enzo Fernández",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Enzo Fernández            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 8
+        },
+        {
+            "id": 71,
+            "name": "Kiernan Dewsbury-Hall",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Kiernan Dewsbury-Hall            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 22
+        },
+        {
+            "id": 72,
+            "name": "Mathis Amougou",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Mathis Amougou            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 39
+        },
+        {
+            "id": 73,
+            "name": "Cole Palmer",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Cole Palmer            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 20
+        },
+        {
+            "id": 74,
+            "name": "Omari Kellyman",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Omari Kellyman            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 37
+        },
+        {
+            "id": 75,
+            "name": "Jadon Sancho",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Jadon Sancho            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 19
+        },
+        {
+            "id": 76,
+            "name": "Mykhaylo Mudryk",
+            "nation": "Ukraine",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Mykhaylo Mudryk  \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 10
+        },
+        {
+            "id": 77,
+            "name": "Tyrique George",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Tyrique George            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 32
+        },
+        {
+            "id": 78,
+            "name": "Pedro Neto",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Pedro Neto            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 7
+        },
+        {
+            "id": 79,
+            "name": "Noni Madueke",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Noni Madueke            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 80,
+            "name": "Nicolas Jackson",
+            "nation": "Senegal",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Nicolas Jackson  \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 15
+        },
+        {
+            "id": 81,
+            "name": "Christopher Nkunku",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Christopher Nkunku            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 18
+        },
+        {
+            "id": 82,
+            "name": "Marc Guiu",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "Marc Guiu            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 38
+        },
+        {
+            "id": 83,
+            "name": "David Datro Fofana",
+            "nation": "Cote d'Ivoire",
+            "league": "Premier League",
+            "team": "Chelsea FC",
+            "position": "David Datro Fofana  \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 0
+        },
+        {
+            "id": 84,
+            "name": "Alisson",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Alisson            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 1
+        },
+        {
+            "id": 85,
+            "name": "Caoimhín Kelleher",
+            "nation": "Ireland",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Caoimhín Kelleher            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 62
+        },
+        {
+            "id": 86,
+            "name": "Vitezslav Jaros",
+            "nation": "Czech Republic",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Vitezslav Jaros            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 56
+        },
+        {
+            "id": 87,
+            "name": "Harvey Davies",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Harvey Davies            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 95
+        },
+        {
+            "id": 88,
+            "name": "Ibrahima Konaté",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Ibrahima Konaté            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 89,
+            "name": "Virgil van Dijk",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Virgil van Dijk  \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 90,
+            "name": "Joe Gomez",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Joe Gomez            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 2
+        },
+        {
+            "id": 91,
+            "name": "Jarell Quansah",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Jarell Quansah            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 78
+        },
+        {
+            "id": 92,
+            "name": "Konstantinos Tsimikas",
+            "nation": "Greece",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Konstantinos Tsimikas            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 21
+        },
+        {
+            "id": 93,
+            "name": "Andrew Robertson",
+            "nation": "Scotland",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Andrew Robertson            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 26
+        },
+        {
+            "id": 94,
+            "name": "Conor Bradley",
+            "nation": "Northern Ireland",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Conor Bradley            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 84
+        },
+        {
+            "id": 95,
+            "name": "Ryan Gravenberch",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Ryan Gravenberch            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 38
+        },
+        {
+            "id": 96,
+            "name": "Wataru Endo",
+            "nation": "Japan",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Wataru Endo            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 3
+        },
+        {
+            "id": 97,
+            "name": "Tyler Morton",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Tyler Morton  \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 80
+        },
+        {
+            "id": 98,
+            "name": "Alexis Mac Allister",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Alexis Mac Allister            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 10
+        },
+        {
+            "id": 99,
+            "name": "Curtis Jones",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Curtis Jones            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 17
+        },
+        {
+            "id": 100,
+            "name": "Dominik Szoboszlai",
+            "nation": "Hungary",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Dominik Szoboszlai            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 8
+        },
+        {
+            "id": 101,
+            "name": "Harvey Elliott",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Harvey Elliott            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 19
+        },
+        {
+            "id": 102,
+            "name": "Luis Díaz",
+            "nation": "Colombia",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Luis Díaz            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 7
+        },
+        {
+            "id": 103,
+            "name": "Cody Gakpo",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Cody Gakpo            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 18
+        },
+        {
+            "id": 104,
+            "name": "Mohamed Salah",
+            "nation": "Egypt",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Mohamed Salah            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 105,
+            "name": "Federico Chiesa",
+            "nation": "Italy",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Federico Chiesa            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 14
+        },
+        {
+            "id": 106,
+            "name": "Darwin Núñez",
+            "nation": "Uruguay",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Darwin Núñez            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 107,
+            "name": "Diogo Jota",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Liverpool FC",
+            "position": "Diogo Jota            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 20
+        },
+        {
+            "id": 108,
+            "name": "Guglielmo Vicario",
+            "nation": "Italy",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Guglielmo Vicario            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 1
+        },
+        {
+            "id": 109,
+            "name": "Antonín Kinský",
+            "nation": "Czech Republic",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Antonín Kinský            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 31
+        },
+        {
+            "id": 110,
+            "name": "Fraser Forster",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Fraser Forster            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 20
+        },
+        {
+            "id": 111,
+            "name": "Brandon Austin",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Brandon Austin            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 40
+        },
+        {
+            "id": 112,
+            "name": "Alfie Whiteman",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Alfie Whiteman            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 41
+        },
+        {
+            "id": 113,
+            "name": "Cristian Romero",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Cristian Romero            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 17
+        },
+        {
+            "id": 114,
+            "name": "Micky van de Ven",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Micky van de Ven            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 37
+        },
+        {
+            "id": 115,
+            "name": "Kevin Danso",
+            "nation": "Austria",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Kevin Danso            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 116,
+            "name": "Radu Drăgușin",
+            "nation": "Romania",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Radu Drăgușin  \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 6
+        },
+        {
+            "id": 117,
+            "name": "Ben Davies",
+            "nation": "Wales",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Ben Davies            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 33
+        },
+        {
+            "id": 118,
+            "name": "Destiny Udogie",
+            "nation": "Italy",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Destiny Udogie            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 13
+        },
+        {
+            "id": 119,
+            "name": "Djed Spence",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Djed Spence            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 24
+        },
+        {
+            "id": 120,
+            "name": "Sergio Reguilón",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Sergio Reguilón            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 3
+        },
+        {
+            "id": 121,
+            "name": "Pedro Porro",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Pedro Porro            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 23
+        },
+        {
+            "id": 122,
+            "name": "Archie Gray",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Archie Gray            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 14
+        },
+        {
+            "id": 123,
+            "name": "Rodrigo Bentancur",
+            "nation": "Uruguay",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Rodrigo Bentancur            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 30
+        },
+        {
+            "id": 124,
+            "name": "Yves Bissouma",
+            "nation": "Mali",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Yves Bissouma            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 8
+        },
+        {
+            "id": 125,
+            "name": "Lucas Bergvall",
+            "nation": "Sweden",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Lucas Bergvall  \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 15
+        },
+        {
+            "id": 126,
+            "name": "Pape Matar Sarr",
+            "nation": "Senegal",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Pape Matar Sarr            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 29
+        },
+        {
+            "id": 127,
+            "name": "Dejan Kulusevski",
+            "nation": "Sweden",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Dejan Kulusevski            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 21
+        },
+        {
+            "id": 128,
+            "name": "James Maddison",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "James Maddison  \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 10
+        },
+        {
+            "id": 129,
+            "name": "Heung-min Son",
+            "nation": "Korea, South",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Heung-min Son  \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 7
+        },
+        {
+            "id": 130,
+            "name": "Mikey Moore",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Mikey Moore            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 47
+        },
+        {
+            "id": 131,
+            "name": "Timo Werner",
+            "nation": "Germany",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Timo Werner  \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 16
+        },
+        {
+            "id": 132,
+            "name": "Brennan Johnson",
+            "nation": "Wales",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Brennan Johnson            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 22
+        },
+        {
+            "id": 133,
+            "name": "Wilson Odobert",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Wilson Odobert            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 28
+        },
+        {
+            "id": 134,
+            "name": "Dominic Solanke",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Dominic Solanke            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 19
+        },
+        {
+            "id": 135,
+            "name": "Mathys Tel",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Mathys Tel            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 136,
+            "name": "Richarlison",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Richarlison            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 137,
+            "name": "Dane Scarlett",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Tottenham Hotspur",
+            "position": "Dane Scarlett  \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 44
+        },
+        {
+            "id": 138,
+            "name": "Nick Pope",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Nick Pope            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 22
+        },
+        {
+            "id": 139,
+            "name": "Odysseas Vlachodimos",
+            "nation": "Greece",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Odysseas Vlachodimos            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 19
+        },
+        {
+            "id": 140,
+            "name": "Martin Dúbravka",
+            "nation": "Slovakia",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Martin Dúbravka            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 1
+        },
+        {
+            "id": 141,
+            "name": "Mark Gillespie",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Mark Gillespie            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 29
+        },
+        {
+            "id": 142,
+            "name": "John Ruddy",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "John Ruddy            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 26
+        },
+        {
+            "id": 143,
+            "name": "Sven Botman",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Sven Botman            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 144,
+            "name": "Fabian Schär",
+            "nation": "Switzerland",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Fabian Schär            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 145,
+            "name": "Dan Burn",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Dan Burn            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 33
+        },
+        {
+            "id": 146,
+            "name": "Jamaal Lascelles",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Jamaal Lascelles  \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 6
+        },
+        {
+            "id": 147,
+            "name": "Lewis Hall",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Lewis Hall  \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 20
+        },
+        {
+            "id": 148,
+            "name": "Matt Targett",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Matt Targett            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 13
+        },
+        {
+            "id": 149,
+            "name": "Jamal Lewis",
+            "nation": "Northern Ireland",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Jamal Lewis            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 12
+        },
+        {
+            "id": 150,
+            "name": "Alex Murphy",
+            "nation": "Ireland",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Alex Murphy            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 0
+        },
+        {
+            "id": 151,
+            "name": "Tino Livramento",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Tino Livramento            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 21
+        },
+        {
+            "id": 152,
+            "name": "Kieran Trippier",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Kieran Trippier            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 2
+        },
+        {
+            "id": 153,
+            "name": "Emil Krafth",
+            "nation": "Sweden",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Emil Krafth            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 17
+        },
+        {
+            "id": 154,
+            "name": "Harrison Ashby",
+            "nation": "Scotland",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Harrison Ashby            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 0
+        },
+        {
+            "id": 155,
+            "name": "Bruno Guimarães",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Bruno Guimarães            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 39
+        },
+        {
+            "id": 156,
+            "name": "Isaac Hayden",
+            "nation": "Jamaica",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Isaac Hayden            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 0
+        },
+        {
+            "id": 157,
+            "name": "Sandro Tonali",
+            "nation": "Italy",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Sandro Tonali            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 8
+        },
+        {
+            "id": 158,
+            "name": "Joelinton",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Joelinton            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 7
+        },
+        {
+            "id": 159,
+            "name": "Joe Willock",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Joe Willock            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 28
+        },
+        {
+            "id": 160,
+            "name": "Lewis Miley",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Lewis Miley            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 67
+        },
+        {
+            "id": 161,
+            "name": "Sean Longstaff",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Sean Longstaff            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 36
+        },
+        {
+            "id": 162,
+            "name": "Joe White",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Joe White            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 0
+        },
+        {
+            "id": 163,
+            "name": "Anthony Gordon",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Anthony Gordon            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 10
+        },
+        {
+            "id": 164,
+            "name": "Harvey Barnes",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Harvey Barnes            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 165,
+            "name": "Jacob Murphy",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Jacob Murphy            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 23
+        },
+        {
+            "id": 166,
+            "name": "Alexander Isak",
+            "nation": "Sweden",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Alexander Isak            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 14
+        },
+        {
+            "id": 167,
+            "name": "Callum Wilson",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "Callum Wilson            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 168,
+            "name": "William Osula",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Newcastle United",
+            "position": "William Osula            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 18
+        },
+        {
+            "id": 169,
+            "name": "André Onana",
+            "nation": "Cameroon",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "André Onana            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 24
+        },
+        {
+            "id": 170,
+            "name": "Altay Bayındır",
+            "nation": "Türkiye",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Altay Bayındır            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 1
+        },
+        {
+            "id": 171,
+            "name": "Tom Heaton",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Tom Heaton            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 22
+        },
+        {
+            "id": 172,
+            "name": "Leny Yoro",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Leny Yoro            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 15
+        },
+        {
+            "id": 173,
+            "name": "Lisandro Martínez",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Lisandro Martínez  \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 6
+        },
+        {
+            "id": 174,
+            "name": "Matthijs de Ligt",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Matthijs de Ligt            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 175,
+            "name": "Harry Maguire",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Harry Maguire            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 176,
+            "name": "Victor Lindelöf",
+            "nation": "Sweden",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Victor Lindelöf            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 2
+        },
+        {
+            "id": 177,
+            "name": "Ayden Heaven",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Ayden Heaven            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 26
+        },
+        {
+            "id": 178,
+            "name": "Jonny Evans",
+            "nation": "Northern Ireland",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Jonny Evans            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 35
+        },
+        {
+            "id": 179,
+            "name": "Luke Shaw",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Luke Shaw            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 23
+        },
+        {
+            "id": 180,
+            "name": "Harry Amass",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Harry Amass            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 41
+        },
+        {
+            "id": 181,
+            "name": "Diogo Dalot",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Diogo Dalot            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 20
+        },
+        {
+            "id": 182,
+            "name": "Noussair Mazraoui",
+            "nation": "Morocco",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Noussair Mazraoui            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 3
+        },
+        {
+            "id": 183,
+            "name": "Manuel Ugarte",
+            "nation": "Uruguay",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Manuel Ugarte            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 25
+        },
+        {
+            "id": 184,
+            "name": "Casemiro",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Casemiro            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 18
+        },
+        {
+            "id": 185,
+            "name": "Toby Collyer",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Toby Collyer            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 43
+        },
+        {
+            "id": 186,
+            "name": "Kobbie Mainoo",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Kobbie Mainoo            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 37
+        },
+        {
+            "id": 187,
+            "name": "Christian Eriksen",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Christian Eriksen            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 0
+        },
+        {
+            "id": 188,
+            "name": "Daniel Gore",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Daniel Gore            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 0
+        },
+        {
+            "id": 189,
+            "name": "Patrick Dorgu",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Patrick Dorgu            \n\n\n\n\n            Left Midfield",
+            "position_group": "Midfielder",
+            "age": 13
+        },
+        {
+            "id": 190,
+            "name": "Bruno Fernandes",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Bruno Fernandes  \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 8
+        },
+        {
+            "id": 191,
+            "name": "Alejandro Garnacho",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Alejandro Garnacho            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 17
+        },
+        {
+            "id": 192,
+            "name": "Mason Mount",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Mason Mount            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 7
+        },
+        {
+            "id": 193,
+            "name": "Amad Diallo",
+            "nation": "Cote d'Ivoire",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Amad Diallo            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 16
+        },
+        {
+            "id": 194,
+            "name": "Rasmus Højlund",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Rasmus Højlund            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 195,
+            "name": "Joshua Zirkzee",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Joshua Zirkzee            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 196,
+            "name": "Chido Obi",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Chido Obi            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 56
+        },
+        {
+            "id": 197,
+            "name": "Ethan Wheatley",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Manchester United",
+            "position": "Ethan Wheatley            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 0
+        },
+        {
+            "id": 198,
+            "name": "Emiliano Martínez",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Emiliano Martínez            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 23
+        },
+        {
+            "id": 199,
+            "name": "Robin Olsen",
+            "nation": "Sweden",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Robin Olsen            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 25
+        },
+        {
+            "id": 200,
+            "name": "Ezri Konsa",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Ezri Konsa            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 201,
+            "name": "Pau Torres",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Pau Torres            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 14
+        },
+        {
+            "id": 202,
+            "name": "Tyrone Mings",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Tyrone Mings            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 203,
+            "name": "Kortney Hause",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Kortney Hause            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 30
+        },
+        {
+            "id": 204,
+            "name": "Ian Maatsen",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Ian Maatsen            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 22
+        },
+        {
+            "id": 205,
+            "name": "Lucas Digne",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Lucas Digne            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 12
+        },
+        {
+            "id": 206,
+            "name": "Matty Cash",
+            "nation": "Poland",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Matty Cash            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 2
+        },
+        {
+            "id": 207,
+            "name": "Axel Disasi",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Axel Disasi            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 3
+        },
+        {
+            "id": 208,
+            "name": "Andrés García",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Andrés García            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 16
+        },
+        {
+            "id": 209,
+            "name": "Amadou Onana",
+            "nation": "Belgium",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Amadou Onana            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 24
+        },
+        {
+            "id": 210,
+            "name": "Boubacar Kamara",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Boubacar Kamara            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 44
+        },
+        {
+            "id": 211,
+            "name": "Lamare Bogarde",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Lamare Bogarde            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 26
+        },
+        {
+            "id": 212,
+            "name": "Youri Tielemans",
+            "nation": "Belgium",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Youri Tielemans  \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 8
+        },
+        {
+            "id": 213,
+            "name": "John McGinn",
+            "nation": "Scotland",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "John McGinn  \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 7
+        },
+        {
+            "id": 214,
+            "name": "Ross Barkley",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Ross Barkley            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 6
+        },
+        {
+            "id": 215,
+            "name": "Jacob Ramsey",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Jacob Ramsey            \n\n\n\n\n            Left Midfield",
+            "position_group": "Midfielder",
+            "age": 41
+        },
+        {
+            "id": 216,
+            "name": "Morgan Rogers",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Morgan Rogers            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 27
+        },
+        {
+            "id": 217,
+            "name": "Marco Asensio",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Marco Asensio            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 21
+        },
+        {
+            "id": 218,
+            "name": "Marcus Rashford",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Marcus Rashford            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 219,
+            "name": "Leon Bailey",
+            "nation": "Jamaica",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Leon Bailey            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 31
+        },
+        {
+            "id": 220,
+            "name": "Donyell Malen",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Donyell Malen            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 17
+        },
+        {
+            "id": 221,
+            "name": "Ollie Watkins",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Aston Villa",
+            "position": "Ollie Watkins            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 222,
+            "name": "Bart Verbruggen",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Bart Verbruggen            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 1
+        },
+        {
+            "id": 223,
+            "name": "Carl Rushworth",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Carl Rushworth            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 39
+        },
+        {
+            "id": 224,
+            "name": "Jason Steele",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Jason Steele            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 23
+        },
+        {
+            "id": 225,
+            "name": "Tom McGill",
+            "nation": "Canada",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Tom McGill            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 37
+        },
+        {
+            "id": 226,
+            "name": "Jan Paul van Hecke",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Jan Paul van Hecke            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 29
+        },
+        {
+            "id": 227,
+            "name": "Igor",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Igor            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 3
+        },
+        {
+            "id": 228,
+            "name": "Adam Webster",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Adam Webster            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 229,
+            "name": "Eiran Cashin",
+            "nation": "Ireland",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Eiran Cashin            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 16
+        },
+        {
+            "id": 230,
+            "name": "Lewis Dunk",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Lewis Dunk  \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 231,
+            "name": "Pervis Estupiñán",
+            "nation": "Ecuador",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Pervis Estupiñán            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 30
+        },
+        {
+            "id": 232,
+            "name": "Ferdi Kadıoğlu",
+            "nation": "Türkiye",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Ferdi Kadıoğlu  \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 24
+        },
+        {
+            "id": 233,
+            "name": "Tariq Lamptey",
+            "nation": "Ghana",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Tariq Lamptey            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 2
+        },
+        {
+            "id": 234,
+            "name": "Joël Veltman",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Joël Veltman            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 34
+        },
+        {
+            "id": 235,
+            "name": "Odeluga Offiah",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Odeluga Offiah            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 0
+        },
+        {
+            "id": 236,
+            "name": "Carlos Baleba",
+            "nation": "Cameroon",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Carlos Baleba            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 20
+        },
+        {
+            "id": 237,
+            "name": "Mats Wieffer",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Mats Wieffer            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 27
+        },
+        {
+            "id": 238,
+            "name": "Jack Hinshelwood",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Jack Hinshelwood            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 41
+        },
+        {
+            "id": 239,
+            "name": "Yasin Ayari",
+            "nation": "Sweden",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Yasin Ayari            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 26
+        },
+        {
+            "id": 240,
+            "name": "Matt O'Riley",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Matt O'Riley            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 33
+        },
+        {
+            "id": 241,
+            "name": "Diego Gómez",
+            "nation": "Paraguay",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Diego Gómez            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 25
+        },
+        {
+            "id": 242,
+            "name": "James Milner",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "James Milner            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 6
+        },
+        {
+            "id": 243,
+            "name": "Kaoru Mitoma",
+            "nation": "Japan",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Kaoru Mitoma            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 22
+        },
+        {
+            "id": 244,
+            "name": "Simon Adingra",
+            "nation": "Cote d'Ivoire",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Simon Adingra            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 245,
+            "name": "Jeremy Sarmiento",
+            "nation": "Ecuador",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Jeremy Sarmiento            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 0
+        },
+        {
+            "id": 246,
+            "name": "Yankuba Minteh",
+            "nation": "The Gambia",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Yankuba Minteh            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 17
+        },
+        {
+            "id": 247,
+            "name": "Brajan Gruda",
+            "nation": "Germany",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Brajan Gruda            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 8
+        },
+        {
+            "id": 248,
+            "name": "Solly March",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Solly March  \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 7
+        },
+        {
+            "id": 249,
+            "name": "Amario Cozier-Duberry",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Amario Cozier-Duberry            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 0
+        },
+        {
+            "id": 250,
+            "name": "João Pedro",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "João Pedro            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 251,
+            "name": "Georginio Rutter",
+            "nation": "France",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Georginio Rutter            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 14
+        },
+        {
+            "id": 252,
+            "name": "Danny Welbeck",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brighton & Hove Albion",
+            "position": "Danny Welbeck            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 18
+        },
+        {
+            "id": 253,
+            "name": "Matz Sels",
+            "nation": "Belgium",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Matz Sels            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 26
+        },
+        {
+            "id": 254,
+            "name": "Carlos Miguel",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Carlos Miguel            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 33
+        },
+        {
+            "id": 255,
+            "name": "Wayne Hennessey",
+            "nation": "Wales",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Wayne Hennessey            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 13
+        },
+        {
+            "id": 256,
+            "name": "Murillo",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Murillo            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 257,
+            "name": "Nikola Milenković",
+            "nation": "Serbia",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Nikola Milenković            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 31
+        },
+        {
+            "id": 258,
+            "name": "Morato",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Morato            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 259,
+            "name": "Willy Boly",
+            "nation": "Cote d'Ivoire",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Willy Boly            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 30
+        },
+        {
+            "id": 260,
+            "name": "Tyler Bindon",
+            "nation": "New Zealand",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Tyler Bindon            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 0
+        },
+        {
+            "id": 261,
+            "name": "Álex Moreno",
+            "nation": "Spain",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Álex Moreno            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 19
+        },
+        {
+            "id": 262,
+            "name": "Harry Toffolo",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Harry Toffolo            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 15
+        },
+        {
+            "id": 263,
+            "name": "Ola Aina",
+            "nation": "Nigeria",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Ola Aina            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 34
+        },
+        {
+            "id": 264,
+            "name": "Neco Williams",
+            "nation": "Wales",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Neco Williams            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 7
+        },
+        {
+            "id": 265,
+            "name": "Danilo",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Danilo            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 28
+        },
+        {
+            "id": 266,
+            "name": "Ibrahim Sangaré",
+            "nation": "Cote d'Ivoire",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Ibrahim Sangaré            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 6
+        },
+        {
+            "id": 267,
+            "name": "Elliot Anderson",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Elliot Anderson            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 8
+        },
+        {
+            "id": 268,
+            "name": "Nicolás Domínguez",
+            "nation": "Argentina",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Nicolás Domínguez            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 16
+        },
+        {
+            "id": 269,
+            "name": "Ryan Yates",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Ryan Yates            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 22
+        },
+        {
+            "id": 270,
+            "name": "Lewis O'Brien",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Lewis O'Brien            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 0
+        },
+        {
+            "id": 271,
+            "name": "Eric da Silva Moreira",
+            "nation": "Germany",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Eric da Silva Moreira            \n\n\n\n\n            Right Midfield",
+            "position_group": "Midfielder",
+            "age": 17
+        },
+        {
+            "id": 272,
+            "name": "Morgan Gibbs-White",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Morgan Gibbs-White            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 10
+        },
+        {
+            "id": 273,
+            "name": "Callum Hudson-Odoi",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Callum Hudson-Odoi            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 14
+        },
+        {
+            "id": 274,
+            "name": "Ramón Sosa",
+            "nation": "Paraguay",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Ramón Sosa            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 24
+        },
+        {
+            "id": 275,
+            "name": "Anthony Elanga",
+            "nation": "Sweden",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Anthony Elanga            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 21
+        },
+        {
+            "id": 276,
+            "name": "Jota Silva",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Jota Silva            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 20
+        },
+        {
+            "id": 277,
+            "name": "Josh Bowler",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Josh Bowler            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 0
+        },
+        {
+            "id": 278,
+            "name": "Taiwo Awoniyi",
+            "nation": "Nigeria",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Taiwo Awoniyi  \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        },
+        {
+            "id": 279,
+            "name": "Chris Wood",
+            "nation": "New Zealand",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Chris Wood            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 280,
+            "name": "Emmanuel Dennis",
+            "nation": "Nigeria",
+            "league": "Premier League",
+            "team": "Nottingham Forest",
+            "position": "Emmanuel Dennis            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 0
+        },
+        {
+            "id": 281,
+            "name": "Mark Flekken",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Mark Flekken            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 1
+        },
+        {
+            "id": 282,
+            "name": "Hákon Rafn Valdimarsson",
+            "nation": "Iceland",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Hákon Rafn Valdimarsson            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 12
+        },
+        {
+            "id": 283,
+            "name": "Matthew Cox",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Matthew Cox            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 0
+        },
+        {
+            "id": 284,
+            "name": "Ben Winterbottom",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Ben Winterbottom            \n\n\n\n\n            Goalkeeper",
+            "position_group": "Goalkeeper",
+            "age": 0
+        },
+        {
+            "id": 285,
+            "name": "Nathan Collins",
+            "nation": "Ireland",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Nathan Collins            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 22
+        },
+        {
+            "id": 286,
+            "name": "Sepp van den Berg",
+            "nation": "Netherlands",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Sepp van den Berg            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 4
+        },
+        {
+            "id": 287,
+            "name": "Kristoffer Ajer",
+            "nation": "Norway",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Kristoffer Ajer            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 20
+        },
+        {
+            "id": 288,
+            "name": "Ethan Pinnock",
+            "nation": "Jamaica",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Ethan Pinnock            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 5
+        },
+        {
+            "id": 289,
+            "name": "Ben Mee",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Ben Mee            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 16
+        },
+        {
+            "id": 290,
+            "name": "Ji-soo Kim",
+            "nation": "Korea, South",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Ji-soo Kim            \n\n\n\n\n            Centre-Back",
+            "position_group": "Defender",
+            "age": 36
+        },
+        {
+            "id": 291,
+            "name": "Keane Lewis-Potter",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Keane Lewis-Potter            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 23
+        },
+        {
+            "id": 292,
+            "name": "Rico Henry",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Rico Henry            \n\n\n\n\n            Left-Back",
+            "position_group": "Defender",
+            "age": 3
+        },
+        {
+            "id": 293,
+            "name": "Michael Kayode",
+            "nation": "Italy",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Michael Kayode            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 33
+        },
+        {
+            "id": 294,
+            "name": "Aaron Hickey",
+            "nation": "Scotland",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Aaron Hickey            \n\n\n\n\n            Right-Back",
+            "position_group": "Defender",
+            "age": 2
+        },
+        {
+            "id": 295,
+            "name": "Vitaly Janelt",
+            "nation": "Germany",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Vitaly Janelt  \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 27
+        },
+        {
+            "id": 296,
+            "name": "Christian Nørgaard",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Christian Nørgaard  \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 6
+        },
+        {
+            "id": 297,
+            "name": "Yunus Emre Konak",
+            "nation": "Türkiye",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Yunus Emre Konak            \n\n\n\n\n            Defensive Midfield",
+            "position_group": "Midfielder",
+            "age": 26
+        },
+        {
+            "id": 298,
+            "name": "Yegor Yarmolyuk",
+            "nation": "Ukraine",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Yegor Yarmolyuk            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 18
+        },
+        {
+            "id": 299,
+            "name": "Mathias Jensen",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Mathias Jensen            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 8
+        },
+        {
+            "id": 300,
+            "name": "Josh Dasilva",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Josh Dasilva  \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 10
+        },
+        {
+            "id": 301,
+            "name": "Paris Maghoma",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Paris Maghoma            \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 32
+        },
+        {
+            "id": 302,
+            "name": "Ryan Trevitt",
+            "nation": "England",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Ryan Trevitt  \n\n\n\n\n            Central Midfield",
+            "position_group": "Midfielder",
+            "age": 0
+        },
+        {
+            "id": 303,
+            "name": "Mikkel Damsgaard",
+            "nation": "Denmark",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Mikkel Damsgaard            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 24
+        },
+        {
+            "id": 304,
+            "name": "Fábio Carvalho",
+            "nation": "Portugal",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Fábio Carvalho            \n\n\n\n\n            Attacking Midfield",
+            "position_group": "Forward",
+            "age": 14
+        },
+        {
+            "id": 305,
+            "name": "Kevin Schade",
+            "nation": "Germany",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Kevin Schade            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 7
+        },
+        {
+            "id": 306,
+            "name": "Gustavo Nunes",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Gustavo Nunes            \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 39
+        },
+        {
+            "id": 307,
+            "name": "Myles Peart-Harris",
+            "nation": "Jamaica",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Myles Peart-Harris  \n\n\n\n\n            Left Winger",
+            "position_group": "Forward",
+            "age": 0
+        },
+        {
+            "id": 308,
+            "name": "Bryan Mbeumo",
+            "nation": "Cameroon",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Bryan Mbeumo            \n\n\n\n\n            Right Winger",
+            "position_group": "Forward",
+            "age": 19
+        },
+        {
+            "id": 309,
+            "name": "Yoane Wissa",
+            "nation": "DR Congo",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Yoane Wissa            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 11
+        },
+        {
+            "id": 310,
+            "name": "Igor Thiago",
+            "nation": "Brazil",
+            "league": "Premier League",
+            "team": "Brentford FC",
+            "position": "Igor Thiago            \n\n\n\n\n            Centre-Forward",
+            "position_group": "Forward",
+            "age": 9
+        }
+    ]
+}

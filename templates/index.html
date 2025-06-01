@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess The Player</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+    <style>
+        .correct { 
+            background-color: #4ade80;
+            animation: flip 0.6s ease;
+        }
+        .partial { 
+            background-color: #facc15;
+            animation: flip 0.6s ease;
+        }
+        .incorrect { 
+            background-color: #ef4444;
+            animation: flip 0.6s ease;
+        }
+        
+        .autoComplete_wrapper {
+            width: 100%;
+        }
+        
+        .autoComplete_result {
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .autoComplete_result:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .autoComplete_highlighted {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        @keyframes flip {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .guess-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .guess-cell {
+            padding: 12px;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+            background-color: #f3f4f6;
+        }
+
+        .flag-icon {
+            width: 32px;
+            height: 24px;
+            margin-bottom: 4px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .header-cell {
+            font-weight: bold;
+            background-color: #e5e7eb;
+            padding: 8px;
+            text-align: center;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8">Guess The Player</h1>
+        
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <input type="text" id="playerSearch" class="w-full p-2 border rounded mb-4" placeholder="Search for a player...">
+                <button onclick="makeGuess()" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                    Make Guess
+                </button>
+            </div>
+
+            <!-- Headers -->
+            <div class="guess-grid mb-2">
+                <div class="header-cell">Player</div>
+                <div class="header-cell">Nation</div>
+                <div class="header-cell">League</div>
+                <div class="header-cell">Team</div>
+                <div class="header-cell">Position</div>
+                <div class="header-cell">Age</div>
+            </div>
+
+            <div id="guesses" class="space-y-2">
+                <!-- Guesses will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <template id="guess-template">
+        <div class="guess-grid">
+            <div class="guess-cell player-name"></div>
+            <div class="guess-cell nation">
+                <img class="flag-icon" src="" alt="">
+                <span class="nation-name"></span>
+            </div>
+            <div class="guess-cell league"></div>
+            <div class="guess-cell team"></div>
+            <div class="guess-cell position"></div>
+            <div class="guess-cell age"></div>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+    <script>
+        let players = [];
+        let selectedPlayer = null;
+        
+        // Initialize autocomplete
+        const autoCompleteJS = new autoComplete({
+            selector: "#playerSearch",
+            placeHolder: "Search for a player...",
+            data: {
+                src: async (query) => {
+                    try {
+                        const response = await fetch(`/api/players/search?q=${encodeURIComponent(query)}`);
+                        const data = await response.json();
+                        return data;
+                    } catch (error) {
+                        return [];
+                    }
+                },
+                keys: ["name"],
+                cache: false,
+            },
+            resultsList: {
+                element: (list, data) => {
+                    if (!data.results.length) {
+                        const message = document.createElement("div");
+                        message.setAttribute("class", "no_result");
+                        message.innerHTML = `<span>No results for "${data.query}"</span>`;
+                        list.prepend(message);
+                    }
+                },
+                noResults: true,
+                maxResults: 10,
+            },
+            resultItem: {
+                highlight: true,
+                element: (item, data) => {
+                    item.innerHTML = `
+                        <div class="flex flex-col">
+                            <div class="font-semibold">${data.value.name}</div>
+                            <div class="text-sm text-gray-600">${data.value.team} (${data.value.league})</div>
+                        </div>
+                    `;
+                }
+            },
+            events: {
+                input: {
+                    selection: (event) => {
+                        const selection = event.detail.selection.value;
+                        autoCompleteJS.input.value = selection.name;
+                        selectedPlayer = selection;
+                    }
+                }
+            }
+        });
+        
+        // Function to make a guess
+        async function makeGuess() {
+            if (!selectedPlayer) {
+                alert('Please select a player from the search results!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/guess', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ guess: selectedPlayer }),
+                });
+
+                const feedback = await response.json();
+                await displayGuess(selectedPlayer, feedback);
+                
+                if (feedback.correct) {
+                    setTimeout(() => {
+                        alert('Congratulations! You found the player!');
+                    }, 800);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+
+            // Reset the search
+            autoCompleteJS.input.value = '';
+            selectedPlayer = null;
+        }
+
+        // Function to display a guess
+        async function displayGuess(player, feedback) {
+            const template = document.getElementById('guess-template');
+            const guessElement = template.content.cloneNode(true);
+            
+            // Set player name
+            guessElement.querySelector('.player-name').textContent = player.name;
+            
+            // Set nation with flag
+            const nationCell = guessElement.querySelector('.nation');
+            const flagImg = nationCell.querySelector('img');
+            const nationName = nationCell.querySelector('.nation-name');
+            
+            flagImg.src = `https://flagcdn.com/w40/${player.nation_code.toLowerCase()}.png`;
+            flagImg.alt = player.nation;
+            nationName.textContent = player.nation;
+            
+            // Set other fields
+            guessElement.querySelector('.league').textContent = player.league;
+            guessElement.querySelector('.team').textContent = player.team;
+            guessElement.querySelector('.position').textContent = player.position;
+            guessElement.querySelector('.age').textContent = player.age;
+
+            // Add appropriate colors with delay for animation
+            setTimeout(() => {
+                if (feedback.nation) nationCell.classList.add('correct');
+                else nationCell.classList.add('incorrect');
+
+                const cells = {
+                    '.league': feedback.league,
+                    '.team': feedback.team,
+                    '.position': feedback.position.exact ? 'correct' : (feedback.position.similar ? 'partial' : 'incorrect'),
+                    '.age': feedback.age.correct ? 'correct' : 'incorrect'
+                };
+
+                for (const [selector, result] of Object.entries(cells)) {
+                    const cell = guessElement.querySelector(selector);
+                    if (result === 'correct') cell.classList.add('correct');
+                    else if (result === 'partial') cell.classList.add('partial');
+                    else cell.classList.add('incorrect');
+
+                    if (selector === '.age' && !feedback.age.correct) {
+                        cell.textContent += feedback.age.higher ? ' ↑' : ' ↓';
+                    }
+                }
+            }, 100);
+
+            document.getElementById('guesses').prepend(guessElement);
+        }
+
+        // Handle Enter key in search
+        document.getElementById('playerSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                makeGuess();
+            }
+        });
+    </script>
+</body>
+</html> 
