@@ -11,6 +11,5 @@ CREATE TABLE players (
     age INTEGER NOT NULL,
     market_value INTEGER NOT NULL,
     market_value_display TEXT NOT NULL,
-    appearances INTEGER NOT NULL,
     last_updated TEXT NOT NULL
 ); 

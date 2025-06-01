@@ -201,9 +201,20 @@ def fetch_players():
                         except (ValueError, AttributeError) as e:
                             print(f"Error parsing market value for {name}: {e}")
                     
-                    # Skip players without a squad number or with low market value
-                    if not squad_number or market_value < 10000000:  # Less than 10M euros
-                        print(f"Skipping {name} - Squad#: {squad_number}, Value: {market_value/1000000:.1f}M")
+                    # Get player ID from their profile URL
+                    player_id = None
+                    player_link = row.select_one("td.hauptlink a[href*='/profil/spieler/']")
+                    if player_link:
+                        try:
+                            player_id = player_link['href'].split('/spieler/')[1].split('/')[0]
+                            print(f"Found player ID for {name}: {player_id}")
+                        except (IndexError, KeyError) as e:
+                            print(f"Error getting player ID for {name}: {e}")
+                    
+                    # Skip players with low market value
+                    # This way we keep expensive players that are more likely to be well-known
+                    if market_value < 5000000:  # Less than 5M euros
+                        print(f"Skipping {name} - Value: {market_value/1000000:.1f}M")
                         continue
                     
                     processed_players.add(name.lower())
@@ -246,7 +257,6 @@ def fetch_players():
                         "age": age,
                         "market_value": market_value,
                         "market_value_display": market_value_display,
-                        "appearances": 1,
                         "last_updated": datetime.now().strftime('%Y-%m-%d')
                     })
                     print(f"Added {name} to database")
@@ -271,8 +281,8 @@ def fetch_players():
             
             # Insert new players
             db.executemany('''
-                INSERT INTO players (name, nation, nation_code, league, team, position, position_group, age, market_value, market_value_display, appearances, last_updated)
-                VALUES (:name, :nation, :nation_code, :league, :team, :position, :position_group, :age, :market_value, :market_value_display, :appearances, :last_updated)
+                INSERT INTO players (name, nation, nation_code, league, team, position, position_group, age, market_value, market_value_display, last_updated)
+                VALUES (:name, :nation, :nation_code, :league, :team, :position, :position_group, :age, :market_value, :market_value_display, :last_updated)
             ''', players_data)
             
             db.commit()
