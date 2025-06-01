@@ -8,6 +8,7 @@ import time
 import sqlite3
 from contextlib import closing
 import os
+import re
 
 # List of user agents to rotate between
 USER_AGENTS = [
@@ -44,12 +45,34 @@ def get_db():
     return db
 
 def fetch_players():
-    """Fetch players from Premier League using Transfermarkt"""
+    """Fetch players from Premier League using Transfermarkt's market value page"""
     players_data = []
     
-    # Premier League URL
-    premier_league_url = 'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1'
-
+    # Define the teams with their IDs
+    teams = {
+        '11': {'name': 'Arsenal', 'url': 'arsenal'},
+        '281': {'name': 'Manchester City', 'url': 'manchester-city'},
+        # Commented out for testing
+        # '31': {'name': 'Liverpool', 'url': 'liverpool'},
+        # '405': {'name': 'Aston Villa', 'url': 'aston-villa'},
+        # '148': {'name': 'Tottenham', 'url': 'tottenham'},
+        # '985': {'name': 'Manchester United', 'url': 'manchester-united'},
+        # '762': {'name': 'Newcastle United', 'url': 'newcastle-united'},
+        # '1237': {'name': 'Brighton', 'url': 'brighton'},
+        # '379': {'name': 'West Ham', 'url': 'west-ham-united'},
+        # '631': {'name': 'Chelsea', 'url': 'chelsea'},
+        # '1148': {'name': 'Brentford', 'url': 'brentford'},
+        # '543': {'name': 'Wolves', 'url': 'wolverhampton'},
+        # '873': {'name': 'Crystal Palace', 'url': 'crystal-palace'},
+        # '703': {'name': 'Nottingham Forest', 'url': 'nottingham'},
+        # '931': {'name': 'Fulham', 'url': 'fulham'},
+        # '29': {'name': 'Everton', 'url': 'everton'},
+        # '1031': {'name': 'Luton', 'url': 'luton-town'},
+        # '989': {'name': 'Bournemouth', 'url': 'bournemouth'},
+        # '350': {'name': 'Sheffield United', 'url': 'sheffield-united'},
+        # '1132': {'name': 'Burnley', 'url': 'burnley'}
+    }
+    
     def get_headers():
         return {
             'User-Agent': random.choice(USER_AGENTS),
@@ -67,7 +90,7 @@ def fetch_players():
         }
 
     session = requests.Session()
-    processed_teams = set()  # Keep track of processed teams
+    processed_players = set()  # Track processed players to avoid duplicates
     
     def make_request(url, retry_count=0):
         """Make a request with retry logic and random delays"""
@@ -76,7 +99,6 @@ def fetch_players():
             return None
             
         try:
-            # Random delay between 5-15 seconds, increasing with each retry
             delay = random.uniform(5 + (retry_count * 5), 15 + (retry_count * 5))
             print(f"Waiting {delay:.1f} seconds before request...")
             time.sleep(delay)
@@ -84,7 +106,6 @@ def fetch_players():
             response = session.get(url, headers=get_headers())
             
             if response.status_code == 200:
-                # Check if we got a valid HTML response
                 if 'text/html' in response.headers.get('Content-Type', ''):
                     return response
                 else:
@@ -92,152 +113,157 @@ def fetch_players():
                     return None
             elif response.status_code == 503 or response.status_code == 429:
                 print(f"Rate limited on {url}, retrying after longer delay...")
-                # Exponential backoff for rate limit (15-30 seconds * retry count)
                 time.sleep(random.uniform(15 * (retry_count + 1), 30 * (retry_count + 1)))
                 return make_request(url, retry_count + 1)
             else:
                 print(f"Failed to fetch {url}. Status code: {response.status_code}")
-                if retry_count < 2:
-                    print("Retrying...")
-                    return make_request(url, retry_count + 1)
                 return None
         except requests.exceptions.RequestException as e:
             print(f"Error making request to {url}: {e}")
-            if retry_count < 2:
-                print("Retrying...")
-                return make_request(url, retry_count + 1)
             return None
     
     try:
-        # Get Premier League page
-        print("Fetching Premier League page...")
-        response = make_request(premier_league_url)
-        if not response:
-            return []
+        # Iterate through each team
+        for team_id, team_info in teams.items():
+            print(f"Fetching players from {team_info['name']}...")
+            url = f'https://www.transfermarkt.com/{team_info["url"]}/startseite/verein/{team_id}'
             
-        soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # Get all team links - only from the main competition table
-        team_links = soup.select("div#yw1 table.items tbody tr td.hauptlink a[href*='/verein/']")
-        print(f"Found {len(team_links)} teams")
-        
-        for team_link in team_links:
-            team_url = f"https://www.transfermarkt.com{team_link['href']}"
-            team_name = team_link.text.strip()
-            
-            # Skip if we've already processed this team
-            if team_name in processed_teams:
-                print(f"Skipping duplicate team: {team_name}")
+            response = make_request(url)
+            if not response:
                 continue
                 
-            processed_teams.add(team_name)
-            print(f"Fetching players from {team_name}...")
+            soup = BeautifulSoup(response.text, 'html.parser')
             
-            team_response = make_request(team_url)
-            if not team_response:
-                continue
-                
-            team_soup = BeautifulSoup(team_response.text, 'html.parser')
-            
-            # Get players from the squad table
-            player_rows = team_soup.select("table.items tbody tr:not(.table-header)")
+            # Get player rows from the squad table
+            player_rows = soup.select("table.items tbody tr.odd, table.items tbody tr.even")
+            print(f"Found {len(player_rows)} players for {team_info['name']}")
             
             for row in player_rows:
                 try:
+                    # Get player name
                     name_cell = row.select_one("td.hauptlink a")
                     if not name_cell:
                         continue
-                        
                     name = name_cell.text.strip()
                     
-                    # Get position
-                    position_cell = row.select_one("td:nth-child(2)")
-                    position = position_cell.text.strip() if position_cell else "Unknown"
+                    # Skip if we've already processed this player
+                    if name.lower() in processed_players:
+                        print(f"Skipping duplicate player: {name}")
+                        continue
                     
-                    # Get age
-                    age_cell = row.select_one("td.zentriert")
-                    try:
-                        age = int(age_cell.text.strip()) if age_cell and age_cell.text.strip() != '-' else 0
-                    except (ValueError, AttributeError):
-                        age = 0
+                    # Debug: Print the row HTML to see structure
+                    print(f"\nRow HTML for {name}:")
+                    print(row.prettify())
+                    
+                    # Get squad number to filter for first team players
+                    squad_number = None
+                    number_cell = row.select_one("td.zentriert .rn_nummer")
+                    if number_cell:
+                        try:
+                            number_text = number_cell.text.strip()
+                            if number_text.isdigit():
+                                squad_number = int(number_text)
+                                print(f"Found squad number for {name}: {squad_number}")
+                        except (ValueError, AttributeError) as e:
+                            print(f"Error parsing squad number for {name}: {e}")
+                    
+                    # Get age from the date cell (3rd td which contains birth date and age in parentheses)
+                    age = 0
+                    date_cell = row.select_one("td:nth-child(3)")
+                    if date_cell:
+                        try:
+                            # Look for number in parentheses, e.g., "(24)"
+                            age_match = re.search(r'\((\d+)\)', date_cell.text.strip())
+                            if age_match:
+                                age = int(age_match.group(1))
+                                print(f"Found age for {name}: {age}")
+                        except (ValueError, AttributeError) as e:
+                            print(f"Error parsing age for {name}: {e}")
+                    
+                    if age == 0:
+                        print(f"Could not find age for {name}")
+                    
+                    # Get market value and format it
+                    market_value = 0
+                    value_cell = row.select_one("td.rechts.hauptlink a")
+                    if value_cell:
+                        try:
+                            value_text = value_cell.text.strip()
+                            # Convert value text (e.g., "€40.00m" or "€800Th.") to numeric
+                            if 'm' in value_text.lower():
+                                # Value in millions
+                                value_num = float(value_text.replace('€', '').replace('m', '').strip())
+                                market_value = value_num * 1000000
+                            elif 'th.' in value_text.lower():
+                                # Value in thousands
+                                value_num = float(value_text.replace('€', '').replace('Th.', '').strip())
+                                market_value = value_num * 1000
+                        except (ValueError, AttributeError) as e:
+                            print(f"Error parsing market value for {name}: {e}")
+                    
+                    # Skip players without a squad number or with low market value
+                    if not squad_number or market_value < 10000000:  # Less than 10M euros
+                        print(f"Skipping {name} - Squad#: {squad_number}, Value: {market_value/1000000:.1f}M")
+                        continue
+                    
+                    processed_players.add(name.lower())
+                    
+                    # Get position - clean up to remove player name
+                    position_cell = row.select_one("td:nth-child(2)")
+                    position = "Unknown"
+                    if position_cell:
+                        # Get just the position text, typically after the name
+                        position_text = position_cell.text.strip()
+                        # Remove the player name if it appears in the position
+                        position_text = position_text.replace(name, "").strip()
+                        # Clean up common position formats
+                        position_parts = position_text.split()
+                        position = position_parts[-1] if position_parts else "Unknown"
+                    
+                    print(f"Processing {name} (#{squad_number}, {market_value/1000000:.1f}M)")
+                    
+                    # Format market value for display
+                    if market_value >= 1000000000:  # Billion
+                        market_value_display = f"€{market_value/1000000000:.1f}B"
+                    elif market_value >= 1000000:  # Million
+                        market_value_display = f"€{market_value/1000000:.1f}M"
+                    else:  # Thousand
+                        market_value_display = f"€{market_value/1000:.0f}K"
                     
                     # Get nationality
-                    nation_cell = row.select_one("img.flaggenrahmen")
-                    nation = nation_cell['title'] if nation_cell else "Unknown"
+                    nation_cell = row.select_one("td.zentriert img.flaggenrahmen")
+                    nation = nation_cell['title'].strip() if nation_cell else "Unknown"
                     nation_code = nation_cell['src'].split('/')[-1].split('.')[0].upper() if nation_cell else ""
                     
-                    # Get appearances - we need to find the correct column
-                    appearances = 0
-                    # First, try to find the header row to identify which column contains appearances
-                    header_row = team_soup.select_one("table.items thead tr")
-                    if header_row:
-                        # Find which column contains appearances
-                        columns = header_row.select("th")
-                        print(f"Found {len(columns)} columns in header row")
-                        appearance_col_index = None
-                        for i, col in enumerate(columns):
-                            print(f"Column {i}: {col.text.strip()}")
-                            if any(term in col.text.lower() for term in ['games', 'appearances', 'played', 'apps', 'matches']):
-                                appearance_col_index = i
-                                print(f"Found appearances column at index {i}")
-                                break
-                        
-                        if appearance_col_index is not None:
-                            # Now get the cell at that same index for our player
-                            cells = row.select("td")
-                            if appearance_col_index < len(cells):
-                                cell = cells[appearance_col_index]
-                                app_text = cell.text.strip()
-                                print(f"Found appearance text: '{app_text}'")
-                                try:
-                                    # The appearance data might be in different formats
-                                    # Could be just a number or could be "23 (2)" format
-                                    if '(' in app_text:
-                                        appearances = int(app_text.split('(')[0].strip())
-                                    # If it contains '/', take the first number (starts)
-                                    elif '/' in app_text:
-                                        appearances = int(app_text.split('/')[0].strip())
-                                    # Otherwise try to convert directly
-                                    else:
-                                        appearances = int(app_text) if app_text.strip().isdigit() else 0
-                                except (ValueError, IndexError) as e:
-                                    print(f"Error parsing appearances: {e}")
-                                    appearances = 0
-                        else:
-                            print("Could not find appearances column in header row")
-                    else:
-                        print("Could not find header row in team table")
-                    
-                    print(f"Processing {name} - Appearances: {appearances}")
-                    
-                    # Only add players with at least 5 appearances
-                    if appearances >= 5:
-                        players_data.append({
-                            "name": name,
-                            "nation": nation,
-                            "nation_code": nation_code,
-                            "league": "Premier League",
-                            "team": team_name,
-                            "position": position,
-                            "position_group": get_position_group(position),
-                            "age": age,
-                            "appearances": appearances,
-                            "last_updated": datetime.now().strftime('%Y-%m-%d')
-                        })
-                        print(f"Added {name} to database (Appearances: {appearances})")
-                    else:
-                        print(f"Skipped {name} (insufficient appearances: {appearances})")
+                    players_data.append({
+                        "name": name,
+                        "nation": nation,
+                        "nation_code": nation_code,
+                        "league": "Premier League",
+                        "team": team_info['name'],
+                        "position": position,
+                        "position_group": get_position_group(position),
+                        "age": age,
+                        "market_value": market_value,
+                        "market_value_display": market_value_display,
+                        "appearances": 1,
+                        "last_updated": datetime.now().strftime('%Y-%m-%d')
+                    })
+                    print(f"Added {name} to database")
                     
                 except Exception as e:
                     print(f"Error processing player: {e}")
                     continue
-
-        print(f"Successfully fetched {len(players_data)} Premier League players")
+            
+            # Add delay between teams
+            time.sleep(random.uniform(10, 20))
+        
+        print(f"Successfully fetched players from {len(teams)} Premier League teams")
         
         if len(players_data) == 0:
             print("No players were added. This might indicate an issue with the scraping.")
             return []
-            
+        
         # Update database
         with closing(get_db()) as db:
             # Clear existing players
@@ -245,13 +271,14 @@ def fetch_players():
             
             # Insert new players
             db.executemany('''
-                INSERT INTO players (name, nation, nation_code, league, team, position, position_group, age, appearances, last_updated)
-                VALUES (:name, :nation, :nation_code, :league, :team, :position, :position_group, :age, :appearances, :last_updated)
+                INSERT INTO players (name, nation, nation_code, league, team, position, position_group, age, market_value, market_value_display, appearances, last_updated)
+                VALUES (:name, :nation, :nation_code, :league, :team, :position, :position_group, :age, :market_value, :market_value_display, :appearances, :last_updated)
             ''', players_data)
             
             db.commit()
-            
+        
         return players_data
+        
     except Exception as e:
         print(f"Error fetching players: {e}")
         return []
@@ -285,14 +312,24 @@ def load_players():
 def get_daily_player():
     """Get the daily player using date as seed"""
     with closing(get_db()) as db:
-        players = db.execute('SELECT * FROM players').fetchall()
-        if not players:
-            return None
+        # For testing, let's get a specific player (Erling Haaland)
+        player = db.execute('''
+            SELECT * FROM players 
+            WHERE name LIKE '%Haaland%' 
+            LIMIT 1
+        ''').fetchone()
+        
+        # If we can't find the test player, fall back to random
+        if not player:
+            players = db.execute('SELECT * FROM players').fetchall()
+            if not players:
+                return None
             
-        today = datetime.now().strftime('%Y-%m-%d')
-        random.seed(today)
-        player = random.choice(players)
-        return dict(player)
+            today = datetime.now().strftime('%Y-%m-%d')
+            random.seed(today)
+            player = random.choice(players)
+        
+        return dict(player) if player else None
 
 @app.route('/')
 def home():
@@ -304,14 +341,43 @@ def search_players():
     query = request.args.get('q', '').lower()
     
     with closing(get_db()) as db:
+        # First get all matching players
         players = db.execute('''
-            SELECT id, name, team, league 
+            SELECT DISTINCT id, name, team, league, position, age, nation, market_value_display 
             FROM players 
             WHERE LOWER(name) LIKE ?
-            LIMIT 10
-        ''', [f'%{query}%']).fetchall()
+            ORDER BY 
+                CASE WHEN LOWER(name) = ? THEN 1
+                     WHEN LOWER(name) LIKE ? THEN 2
+                     ELSE 3 END,
+                CASE WHEN team != 'Unknown' THEN 1 ELSE 2 END,
+                name
+        ''', [f'%{query}%', query, f'{query}%']).fetchall()
         
-        return jsonify([dict(player) for player in players])
+        # Filter out duplicates, preferring entries with known teams
+        seen_players = {}
+        filtered_players = []
+        for player in players:
+            name = player['name']
+            if name not in seen_players:
+                seen_players[name] = player
+            elif player['team'] != 'Unknown' and seen_players[name]['team'] == 'Unknown':
+                # Replace the Unknown team version with the known team version
+                seen_players[name] = player
+        
+        filtered_players = list(seen_players.values())[:10]  # Limit to 10 results
+        
+        return jsonify([{
+            'id': player['id'],
+            'name': player['name'],
+            'team': player['team'],
+            'league': player['league'],
+            'position': player['position'],
+            'age': player['age'],
+            'nation': player['nation'],
+            'market_value_display': player['market_value_display'],
+            'label': f"{player['name']} ({player['team']}" + (")" if player['team'] != "Unknown" else ")")
+        } for player in filtered_players])
 
 @app.route('/api/guess', methods=['POST'])
 def check_guess():
@@ -342,6 +408,12 @@ def check_guess():
                 'higher': guessed_player['age'] < daily_player['age'],
                 'lower': guessed_player['age'] > daily_player['age']
             },
+            'market_value': {
+                'correct': guessed_player['market_value'] == daily_player['market_value'],
+                'higher': guessed_player['market_value'] < daily_player['market_value'],
+                'lower': guessed_player['market_value'] > daily_player['market_value'],
+                'display': daily_player['market_value_display']
+            },
             'correct': guessed_player['id'] == daily_player['id']
         }
         
@@ -350,20 +422,37 @@ def check_guess():
 @app.route('/api/update-players')
 def update_players():
     """Admin route to update player database"""
-    # Check if database needs updating (once per week)
-    with closing(get_db()) as db:
-        last_update = db.execute('SELECT last_updated FROM players LIMIT 1').fetchone()
-        if last_update:
-            last_update = datetime.strptime(last_update['last_updated'], '%Y-%m-%d')
-            days_since_update = (datetime.now() - last_update).days
+    force_update = request.args.get('force', '').lower() == 'true'
+    
+    try:
+        with closing(get_db()) as db:
+            # Check if we have any players
+            player_count = db.execute('SELECT COUNT(*) as count FROM players').fetchone()['count']
             
-            if days_since_update < 7:
-                return jsonify({
-                    "message": f"Database was updated {days_since_update} days ago. Next update in {7 - days_since_update} days."
-                })
+            if player_count == 0:
+                print("Database is empty, forcing update...")
+                force_update = True
+            else:
+                # Check last update time
+                last_update = db.execute('SELECT last_updated FROM players LIMIT 1').fetchone()
+                if last_update:
+                    last_update = datetime.strptime(last_update['last_updated'], '%Y-%m-%d')
+                    days_since_update = (datetime.now() - last_update).days
+                    
+                    if not force_update and days_since_update < 7:
+                        return jsonify({
+                            "message": f"Database was updated {days_since_update} days ago. Next update in {7 - days_since_update} days.",
+                            "player_count": player_count
+                        })
+    except Exception as e:
+        print(f"Error checking database: {e}")
+        force_update = True
     
     players = fetch_players()
-    return jsonify({"message": f"Updated {len(players)} players"})
+    return jsonify({
+        "message": f"Updated {len(players)} players",
+        "player_count": len(players)
+    })
 
 if __name__ == '__main__':
     # Make sure the data directory exists

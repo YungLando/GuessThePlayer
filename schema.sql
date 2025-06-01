@@ -9,6 +9,8 @@ CREATE TABLE players (
     position TEXT NOT NULL,
     position_group TEXT NOT NULL,
     age INTEGER NOT NULL,
+    market_value INTEGER NOT NULL,
+    market_value_display TEXT NOT NULL,
     appearances INTEGER NOT NULL,
     last_updated TEXT NOT NULL
 ); 

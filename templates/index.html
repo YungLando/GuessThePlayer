@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
     <style>
         .correct { 
-            background-color: #4ade80;
+            background-color: #4ade80 !important;
             animation: flip 0.6s ease;
         }
         .partial { 
-            background-color: #facc15;
+            background-color: #facc15 !important;
             animation: flip 0.6s ease;
         }
         .incorrect { 
-            background-color: #ef4444;
+            background-color: #ef4444 !important;
             animation: flip 0.6s ease;
         }
         
@@ -27,15 +27,32 @@
         .autoComplete_result {
             padding: 0.5rem;
             cursor: pointer;
+            border-bottom: 1px solid #e5e7eb;
         }
         
         .autoComplete_result:hover {
-            background-color: #e5e7eb;
+            background-color: #f3f4f6;
         }
         
         .autoComplete_highlighted {
             color: #2563eb;
             font-weight: bold;
+        }
+
+        .search-result {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-result-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .search-result-team {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 2px;
         }
 
         @keyframes flip {
@@ -46,22 +63,25 @@
 
         .guess-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 4px;
-            margin-bottom: 8px;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .guess-cell {
             padding: 12px;
             text-align: center;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 80px;
-            background-color: #f3f4f6;
+            background-color: #e5e7eb;
+            border: 2px solid #d1d5db;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .flag-icon {
@@ -73,10 +93,19 @@
 
         .header-cell {
             font-weight: bold;
-            background-color: #e5e7eb;
-            padding: 8px;
+            background-color: #1f2937;
+            color: white;
+            padding: 12px;
             text-align: center;
-            border-radius: 4px;
+            border-radius: 6px;
+        }
+
+        #guesses {
+            margin-top: 20px;
+        }
+
+        .guess-grid:not(:last-child) {
+            margin-bottom: 12px;
         }
     </style>
 </head>
@@ -100,6 +129,7 @@
                 <div class="header-cell">Team</div>
                 <div class="header-cell">Position</div>
                 <div class="header-cell">Age</div>
+                <div class="header-cell">Value</div>
             </div>
 
             <div id="guesses" class="space-y-2">
@@ -111,14 +141,12 @@
     <template id="guess-template">
         <div class="guess-grid">
             <div class="guess-cell player-name"></div>
-            <div class="guess-cell nation">
-                <img class="flag-icon" src="" alt="">
-                <span class="nation-name"></span>
-            </div>
+            <div class="guess-cell nation"></div>
             <div class="guess-cell league"></div>
             <div class="guess-cell team"></div>
             <div class="guess-cell position"></div>
             <div class="guess-cell age"></div>
+            <div class="guess-cell market-value"></div>
         </div>
     </template>
 
@@ -160,9 +188,9 @@
                 highlight: true,
                 element: (item, data) => {
                     item.innerHTML = `
-                        <div class="flex flex-col">
-                            <div class="font-semibold">${data.value.name}</div>
-                            <div class="text-sm text-gray-600">${data.value.team} (${data.value.league})</div>
+                        <div class="search-result">
+                            <div class="search-result-name">${data.value.name}</div>
+                            <div class="search-result-team">${data.value.team}</div>
                         </div>
                     `;
                 }
@@ -171,7 +199,7 @@
                 input: {
                     selection: (event) => {
                         const selection = event.detail.selection.value;
-                        autoCompleteJS.input.value = selection.name;
+                        autoCompleteJS.input.value = selection.label;
                         selectedPlayer = selection;
                     }
                 }
@@ -195,70 +223,95 @@
                 });
 
                 const feedback = await response.json();
-                await displayGuess(selectedPlayer, feedback);
                 
+                // Create a new guess element from the template
+                const template = document.getElementById('guess-template');
+                const guessElement = template.content.cloneNode(true);
+                
+                // Fill in the player data
+                guessElement.querySelector('.player-name').textContent = selectedPlayer.name;
+                
+                // Set classes based on feedback
                 if (feedback.correct) {
-                    setTimeout(() => {
-                        alert('Congratulations! You found the player!');
-                    }, 800);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+                    guessElement.querySelectorAll('.guess-cell').forEach(cell => {
+                        cell.classList.add('correct');
+                        // Fill in the correct data
+                        if (cell.classList.contains('nation')) {
+                            cell.textContent = selectedPlayer.nation;
+                        } else if (cell.classList.contains('league')) {
+                            cell.textContent = 'Premier League';
+                        } else if (cell.classList.contains('team')) {
+                            cell.textContent = selectedPlayer.team;
+                        } else if (cell.classList.contains('position')) {
+                            cell.textContent = selectedPlayer.position;
+                        } else if (cell.classList.contains('age')) {
+                            cell.textContent = selectedPlayer.age;
+                        } else if (cell.classList.contains('market-value')) {
+                            cell.textContent = selectedPlayer.market_value_display;
+                        }
+                    });
+                    alert('Congratulations! You found the player!');
+                } else {
+                    // Nation
+                    const nationCell = guessElement.querySelector('.nation');
+                    nationCell.classList.add(feedback.nation ? 'correct' : 'incorrect');
+                    nationCell.textContent = selectedPlayer.nation;
+                    
+                    // League
+                    const leagueCell = guessElement.querySelector('.league');
+                    leagueCell.classList.add(feedback.league ? 'correct' : 'incorrect');
+                    leagueCell.textContent = 'Premier League';
+                    
+                    // Team
+                    const teamCell = guessElement.querySelector('.team');
+                    teamCell.classList.add(feedback.team ? 'correct' : 'incorrect');
+                    teamCell.textContent = selectedPlayer.team;
+                    
+                    // Position
+                    const positionCell = guessElement.querySelector('.position');
+                    positionCell.textContent = selectedPlayer.position;
+                    if (feedback.position.exact) {
+                        positionCell.classList.add('correct');
+                    } else if (feedback.position.similar) {
+                        positionCell.classList.add('partial');
+                    } else {
+                        positionCell.classList.add('incorrect');
+                    }
+                    
+                    // Age
+                    const ageCell = guessElement.querySelector('.age');
+                    ageCell.textContent = selectedPlayer.age;
+                    if (feedback.age.correct) {
+                        ageCell.classList.add('correct');
+                    } else {
+                        ageCell.classList.add('incorrect');
+                        const arrow = feedback.age.higher ? '↑' : '↓';
+                        ageCell.textContent = `${selectedPlayer.age} ${arrow}`;
+                    }
 
-            // Reset the search
-            autoCompleteJS.input.value = '';
-            selectedPlayer = null;
-        }
-
-        // Function to display a guess
-        async function displayGuess(player, feedback) {
-            const template = document.getElementById('guess-template');
-            const guessElement = template.content.cloneNode(true);
-            
-            // Set player name
-            guessElement.querySelector('.player-name').textContent = player.name;
-            
-            // Set nation with flag
-            const nationCell = guessElement.querySelector('.nation');
-            const flagImg = nationCell.querySelector('img');
-            const nationName = nationCell.querySelector('.nation-name');
-            
-            flagImg.src = `https://flagcdn.com/w40/${player.nation_code.toLowerCase()}.png`;
-            flagImg.alt = player.nation;
-            nationName.textContent = player.nation;
-            
-            // Set other fields
-            guessElement.querySelector('.league').textContent = player.league;
-            guessElement.querySelector('.team').textContent = player.team;
-            guessElement.querySelector('.position').textContent = player.position;
-            guessElement.querySelector('.age').textContent = player.age;
-
-            // Add appropriate colors with delay for animation
-            setTimeout(() => {
-                if (feedback.nation) nationCell.classList.add('correct');
-                else nationCell.classList.add('incorrect');
-
-                const cells = {
-                    '.league': feedback.league,
-                    '.team': feedback.team,
-                    '.position': feedback.position.exact ? 'correct' : (feedback.position.similar ? 'partial' : 'incorrect'),
-                    '.age': feedback.age.correct ? 'correct' : 'incorrect'
-                };
-
-                for (const [selector, result] of Object.entries(cells)) {
-                    const cell = guessElement.querySelector(selector);
-                    if (result === 'correct') cell.classList.add('correct');
-                    else if (result === 'partial') cell.classList.add('partial');
-                    else cell.classList.add('incorrect');
-
-                    if (selector === '.age' && !feedback.age.correct) {
-                        cell.textContent += feedback.age.higher ? ' ↑' : ' ↓';
+                    // Market Value
+                    const marketValueCell = guessElement.querySelector('.market-value');
+                    marketValueCell.textContent = selectedPlayer.market_value_display;
+                    if (feedback.market_value.correct) {
+                        marketValueCell.classList.add('correct');
+                    } else {
+                        marketValueCell.classList.add('incorrect');
+                        const arrow = feedback.market_value.higher ? '↑' : '↓';
+                        marketValueCell.textContent = `${selectedPlayer.market_value_display} ${arrow}`;
                     }
                 }
-            }, 100);
-
-            document.getElementById('guesses').prepend(guessElement);
+                
+                // Add the guess to the guesses container
+                document.getElementById('guesses').prepend(guessElement);
+                
+                // Clear the search input and selected player
+                autoCompleteJS.input.value = '';
+                selectedPlayer = null;
+                
+            } catch (error) {
+                console.error('Error making guess:', error);
+                alert('Error making guess. Please try again.');
+            }
         }
 
         // Handle Enter key in search
@@ -267,6 +320,19 @@
                 makeGuess();
             }
         });
+
+        function getMarketValueFeedback(feedback) {
+            if (feedback.correct) return '✓';
+            if (feedback.higher) return `↑ (${feedback.display})`;
+            if (feedback.lower) return `↓ (${feedback.display})`;
+            return '✗';
+        }
+
+        function getFeedbackClass(feedback) {
+            if (feedback.correct) return 'correct';
+            if (feedback.higher || feedback.lower || feedback.similar) return 'partial';
+            return 'incorrect';
+        }
     </script>
 </body>
 </html> 
