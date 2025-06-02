@@ -6,135 +6,385 @@
     <title>Guess The Player</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1c2c 0%, #2a3045 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        .game-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-container {
+            position: relative;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         .correct { 
-            background-color: #4ade80 !important;
-            animation: flip 0.6s ease;
-        }
-        .partial { 
-            background-color: #facc15 !important;
-            animation: flip 0.6s ease;
-        }
-        .incorrect { 
-            background-color: #ef4444 !important;
-            animation: flip 0.6s ease;
+            background: rgba(52, 211, 153, 0.9) !important;
+            color: #064e3b;
+            font-weight: 600;
         }
         
+        .partial { 
+            background: rgba(252, 211, 77, 0.9) !important;
+            color: #854d0e;
+            font-weight: 600;
+        }
+        
+        .incorrect { 
+            color: #ffffff;
+            font-weight: 600;
+        }
+
         .autoComplete_wrapper {
             width: 100%;
+            position: relative;
         }
-        
-        .autoComplete_result {
-            padding: 0.5rem;
+
+        /* Override all autocomplete styles */
+        .autoComplete_wrapper > ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #1a1c2c !important;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 9999;
+            padding: 0;
+            list-style: none;
+        }
+
+        .autoComplete_wrapper > ul > li {
+            padding: 0.75rem;
             cursor: pointer;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+            background: #1a1c2c !important;
         }
-        
-        .autoComplete_result:hover {
-            background-color: #f3f4f6;
+
+        .autoComplete_wrapper > ul > li:last-child {
+            border-bottom: none;
         }
-        
-        .autoComplete_highlighted {
-            color: #2563eb;
+
+        .autoComplete_wrapper > ul > li:hover {
+            background: #2a3045 !important;
+        }
+
+        .autoComplete_wrapper > ul > li mark {
+            color: #60a5fa !important;
+            background: none !important;
             font-weight: bold;
         }
 
-        .search-result {
+        .autoComplete_wrapper > ul > li .search-result {
             display: flex;
             flex-direction: column;
+            gap: 0.25rem;
         }
 
-        .search-result-name {
+        .autoComplete_wrapper > ul > li .search-result-name {
             font-weight: 600;
-            color: #111827;
+            color: #ffffff !important;
         }
 
-        .search-result-team {
+        .autoComplete_wrapper > ul > li .search-result-team {
             font-size: 0.875rem;
-            color: #6b7280;
-            margin-top: 2px;
+            color: rgba(255, 255, 255, 0.7) !important;
         }
 
-        @keyframes flip {
-            0% { transform: rotateX(0deg); }
-            50% { transform: rotateX(90deg); }
-            100% { transform: rotateX(0deg); }
+        .autoComplete_wrapper > ul > li.no_result {
+            padding: 0.75rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            text-align: center;
+            font-style: italic;
+            background: #1a1c2c !important;
+        }
+
+        /* Remove any existing autoComplete styles */
+        #autoComplete_list,
+        .autoComplete_result,
+        .autoComplete_highlighted,
+        .search-result,
+        .search-result-name,
+        .search-result-team,
+        .no_result {
+            all: revert;
+        }
+
+        #playerSearch {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        #playerSearch::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #playerSearch:focus {
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+
+        .guess-button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #3b82f6;
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .guess-button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .guess-button:active {
+            transform: translateY(0);
+        }
+
+        .guess-button:focus {
+            outline: none;
         }
 
         .guess-grid {
+            position: relative;
+            z-index: 1;
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            perspective: 1000px;
+        }
+
+        .header-cell {
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 0.75rem;
+            text-align: center;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         .guess-cell {
-            padding: 12px;
+            position: relative;
+            z-index: 1;
+            padding: 1rem;
             text-align: center;
-            border-radius: 6px;
-            font-size: 14px;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 80px;
-            background-color: #e5e7eb;
-            border: 2px solid #d1d5db;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 500;
-            transition: all 0.3s ease;
+            color: #ffffff;
+            transform: rotateX(-90deg);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .guess-cell.revealed {
+            transform: rotateX(0);
+            opacity: 1;
+        }
+
+        /* Remove the old animations */
+        .guess-cell.player-name, .guess-cell.nation, .guess-cell.league,
+        .guess-cell.team, .guess-cell.position, .guess-cell.age,
+        .guess-cell.market-value {
+            animation: none;
+        }
+
+        @keyframes revealCell {
+            from {
+                opacity: 0;
+                transform: rotateX(-90deg);
+            }
+            to {
+                opacity: 1;
+                transform: rotateX(0);
+            }
+        }
+
+        #guesses {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
         .flag-icon {
             width: 32px;
             height: 24px;
-            margin-bottom: 4px;
-            border: 1px solid #e5e7eb;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .header-cell {
-            font-weight: bold;
-            background-color: #1f2937;
-            color: white;
-            padding: 12px;
-            text-align: center;
-            border-radius: 6px;
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
 
-        #guesses {
-            margin-top: 20px;
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
         }
 
-        .guess-grid:not(:last-child) {
-            margin-bottom: 12px;
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 1rem;
+            }
+
+            .guess-grid {
+                gap: 0.5rem;
+            }
+
+            .guess-cell {
+                padding: 0.75rem;
+                font-size: 0.75rem;
+                min-height: 60px;
+            }
+
+            .header-cell {
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes flipIn {
+            0% {
+                opacity: 0;
+                transform: rotateX(-90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: rotateX(0);
+            }
+        }
+
+        /* Add a pulsing animation for the loading state */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .loading {
+            opacity: 0.6;
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-4xl font-bold text-center mb-8">Guess The Player</h1>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">Guess The Player</h1>
         
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <input type="text" id="playerSearch" class="w-full p-2 border rounded mb-4" placeholder="Search for a player...">
-                <button onclick="makeGuess()" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                    Make Guess
-                </button>
-            </div>
+        <div class="search-container">
+            <input type="text" id="playerSearch" class="search-input" placeholder="Search for a player...">
+            <button onclick="makeGuess()" class="guess-button">
+                Make Guess
+            </button>
+        </div>
 
-            <!-- Headers -->
-            <div class="guess-grid mb-2">
-                <div class="header-cell">Player</div>
-                <div class="header-cell">Nation</div>
-                <div class="header-cell">League</div>
-                <div class="header-cell">Team</div>
-                <div class="header-cell">Position</div>
-                <div class="header-cell">Age</div>
-                <div class="header-cell">Value</div>
-            </div>
+        <!-- Headers -->
+        <div class="guess-grid">
+            <div class="header-cell">Player</div>
+            <div class="header-cell">Nation</div>
+            <div class="header-cell">League</div>
+            <div class="header-cell">Team</div>
+            <div class="header-cell">Position</div>
+            <div class="header-cell">Age</div>
+            <div class="header-cell">Value</div>
+        </div>
 
-            <div id="guesses" class="space-y-2">
-                <!-- Guesses will be displayed here -->
-            </div>
+        <div id="guesses">
+            <!-- Guesses will be displayed here -->
         </div>
     </div>
 
@@ -172,6 +422,7 @@
                 keys: ["name"],
                 cache: false,
             },
+            threshold: 1,
             resultsList: {
                 element: (list, data) => {
                     if (!data.results.length) {
@@ -183,6 +434,7 @@
                 },
                 noResults: true,
                 maxResults: 10,
+                tabSelect: true
             },
             resultItem: {
                 highlight: true,
@@ -190,7 +442,7 @@
                     item.innerHTML = `
                         <div class="search-result">
                             <div class="search-result-name">${data.value.name}</div>
-                            <div class="search-result-team">${data.value.team}</div>
+                            <div class="search-result-team">${data.value.team} - ${data.value.position}</div>
                         </div>
                     `;
                 }
@@ -199,8 +451,11 @@
                 input: {
                     selection: (event) => {
                         const selection = event.detail.selection.value;
-                        autoCompleteJS.input.value = selection.label;
+                        autoCompleteJS.input.value = selection.name;
                         selectedPlayer = selection;
+                    },
+                    focus: () => {
+                        if (autoCompleteJS.input.value.length) autoCompleteJS.start();
                     }
                 }
             }
@@ -228,82 +483,129 @@
                 const template = document.getElementById('guess-template');
                 const guessElement = template.content.cloneNode(true);
                 
-                // Fill in the player data
-                guessElement.querySelector('.player-name').textContent = selectedPlayer.name;
-                
-                // Set classes based on feedback
-                if (feedback.correct) {
-                    guessElement.querySelectorAll('.guess-cell').forEach(cell => {
-                        cell.classList.add('correct');
-                        // Fill in the correct data
-                        if (cell.classList.contains('nation')) {
-                            cell.textContent = selectedPlayer.nation;
-                        } else if (cell.classList.contains('league')) {
-                            cell.textContent = 'Premier League';
-                        } else if (cell.classList.contains('team')) {
-                            cell.textContent = selectedPlayer.team;
-                        } else if (cell.classList.contains('position')) {
-                            cell.textContent = selectedPlayer.position;
-                        } else if (cell.classList.contains('age')) {
-                            cell.textContent = selectedPlayer.age;
-                        } else if (cell.classList.contains('market-value')) {
-                            cell.textContent = selectedPlayer.market_value_display;
-                        }
-                    });
-                    alert('Congratulations! You found the player!');
-                } else {
-                    // Nation
-                    const nationCell = guessElement.querySelector('.nation');
-                    nationCell.classList.add(feedback.nation ? 'correct' : 'incorrect');
-                    nationCell.textContent = selectedPlayer.nation;
-                    
-                    // League
-                    const leagueCell = guessElement.querySelector('.league');
-                    leagueCell.classList.add(feedback.league ? 'correct' : 'incorrect');
-                    leagueCell.textContent = 'Premier League';
-                    
-                    // Team
-                    const teamCell = guessElement.querySelector('.team');
-                    teamCell.classList.add(feedback.team ? 'correct' : 'incorrect');
-                    teamCell.textContent = selectedPlayer.team;
-                    
-                    // Position
-                    const positionCell = guessElement.querySelector('.position');
-                    positionCell.textContent = selectedPlayer.position;
-                    if (feedback.position.exact) {
-                        positionCell.classList.add('correct');
-                    } else if (feedback.position.similar) {
-                        positionCell.classList.add('partial');
-                    } else {
-                        positionCell.classList.add('incorrect');
-                    }
-                    
-                    // Age
-                    const ageCell = guessElement.querySelector('.age');
-                    ageCell.textContent = selectedPlayer.age;
-                    if (feedback.age.correct) {
-                        ageCell.classList.add('correct');
-                    } else {
-                        ageCell.classList.add('incorrect');
-                        const arrow = feedback.age.higher ? '↑' : '↓';
-                        ageCell.textContent = `${selectedPlayer.age} ${arrow}`;
-                    }
-
-                    // Market Value
-                    const marketValueCell = guessElement.querySelector('.market-value');
-                    marketValueCell.textContent = selectedPlayer.market_value_display;
-                    if (feedback.market_value.correct) {
-                        marketValueCell.classList.add('correct');
-                    } else {
-                        marketValueCell.classList.add('incorrect');
-                        const arrow = feedback.market_value.higher ? '↑' : '↓';
-                        marketValueCell.textContent = `${selectedPlayer.market_value_display} ${arrow}`;
-                    }
-                }
-                
-                // Add the guess to the guesses container
+                // Add the guess to the guesses container first
                 document.getElementById('guesses').prepend(guessElement);
                 
+                // Get the newly added grid
+                const newGrid = document.getElementById('guesses').firstElementChild;
+                
+                // Set initial player name immediately
+                const playerNameCell = newGrid.querySelector('.player-name');
+                const nationCell = newGrid.querySelector('.nation');
+                const leagueCell = newGrid.querySelector('.league');
+                const teamCell = newGrid.querySelector('.team');
+                const positionCell = newGrid.querySelector('.position');
+                const ageCell = newGrid.querySelector('.age');
+                const marketValueCell = newGrid.querySelector('.market-value');
+
+                // Store initial values
+                const initialAge = selectedPlayer.age;
+                const initialMarketValue = selectedPlayer.market_value_display;
+
+                // Set all text content immediately
+                playerNameCell.textContent = selectedPlayer.name;
+                nationCell.textContent = selectedPlayer.nation;
+                leagueCell.textContent = 'Premier League';
+                teamCell.textContent = selectedPlayer.team;
+                positionCell.textContent = selectedPlayer.position;
+                ageCell.textContent = initialAge;
+                marketValueCell.textContent = initialMarketValue;
+
+                // Add loading class to all cells
+                playerNameCell.classList.add('loading');
+                nationCell.classList.add('loading');
+                leagueCell.classList.add('loading');
+                teamCell.classList.add('loading');
+                positionCell.classList.add('loading');
+                ageCell.classList.add('loading');
+                marketValueCell.classList.add('loading');
+
+                // Fill in data with delays
+                setTimeout(() => {
+                    if (feedback.correct) {
+                        // If correct, all cells are green
+                        [playerNameCell, nationCell, leagueCell, teamCell, positionCell, ageCell, marketValueCell].forEach((cell, index) => {
+                            setTimeout(() => {
+                                cell.classList.remove('loading');
+                                cell.classList.add('correct');
+                                cell.classList.add('revealed');
+                            }, index * 200);
+                        });
+                        setTimeout(() => alert('Congratulations! You found the player!'), 1500);
+                    } else {
+                        // Remove loading and add appropriate classes with sequential reveal
+                        setTimeout(() => {
+                            playerNameCell.classList.remove('loading');
+                            playerNameCell.classList.add('incorrect');
+                            playerNameCell.classList.add('revealed');
+                        }, 0);
+
+                        setTimeout(() => {
+                            nationCell.classList.remove('loading');
+                            nationCell.classList.add(feedback.nation ? 'correct' : 'incorrect');
+                            nationCell.classList.add('revealed');
+                        }, 200);
+
+                        setTimeout(() => {
+                            leagueCell.classList.remove('loading');
+                            leagueCell.classList.add(feedback.league ? 'correct' : 'incorrect');
+                            leagueCell.classList.add('revealed');
+                        }, 400);
+
+                        setTimeout(() => {
+                            teamCell.classList.remove('loading');
+                            teamCell.classList.add(feedback.team ? 'correct' : 'incorrect');
+                            teamCell.classList.add('revealed');
+                        }, 600);
+
+                        setTimeout(() => {
+                            positionCell.classList.remove('loading');
+                            positionCell.classList.add(feedback.position.exact ? 'correct' : feedback.position.similar ? 'partial' : 'incorrect');
+                            positionCell.classList.add('revealed');
+                        }, 800);
+
+                        setTimeout(() => {
+                            ageCell.classList.remove('loading');
+                            if (feedback.age.correct) {
+                                ageCell.classList.add('correct');
+                            } else {
+                                if (feedback.age.close) {
+                                    ageCell.classList.add('partial');
+                                } else {
+                                    ageCell.classList.add('incorrect');
+                                }
+                                // Update age text with arrow only if not correct
+                                if (feedback.age.higher) {
+                                    ageCell.textContent = `${initialAge} ↑`;
+                                } else if (feedback.age.lower) {
+                                    ageCell.textContent = `${initialAge} ↓`;
+                                }
+                            }
+                            ageCell.classList.add('revealed');
+                        }, 1000);
+
+                        setTimeout(() => {
+                            marketValueCell.classList.remove('loading');
+                            if (feedback.market_value.correct) {
+                                marketValueCell.classList.add('correct');
+                            } else {
+                                if (feedback.market_value.close) {
+                                    marketValueCell.classList.add('partial');
+                                } else {
+                                    marketValueCell.classList.add('incorrect');
+                                }
+                                // Update market value text with arrow only if not correct
+                                if (feedback.market_value.higher) {
+                                    marketValueCell.textContent = `${initialMarketValue} ↑`;
+                                } else if (feedback.market_value.lower) {
+                                    marketValueCell.textContent = `${initialMarketValue} ↓`;
+                                }
+                            }
+                            marketValueCell.classList.add('revealed');
+                        }, 1200);
+                    }
+                }, 200);
+
                 // Clear the search input and selected player
                 autoCompleteJS.input.value = '';
                 selectedPlayer = null;

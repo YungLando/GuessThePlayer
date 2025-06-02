@@ -219,19 +219,76 @@ def fetch_players():
                     
                     processed_players.add(name.lower())
                     
-                    # Get position - clean up to remove player name
+                    # Get position - clean up and maintain specific position
                     position_cell = row.select_one("td:nth-child(2)")
                     position = "Unknown"
                     if position_cell:
-                        # Get just the position text, typically after the name
-                        position_text = position_cell.text.strip()
-                        # Remove the player name if it appears in the position
-                        position_text = position_text.replace(name, "").strip()
-                        # Clean up common position formats
-                        position_parts = position_text.split()
-                        position = position_parts[-1] if position_parts else "Unknown"
+                        try:
+                            # Get the position text
+                            position_text = position_cell.text.strip()
+                            # Remove the player name if it appears in the position
+                            position_text = position_text.replace(name, "").strip()
+                            
+                            # Clean and standardize position names
+                            position_text = position_text.lower()
+                            
+                            # Map common position variations to standardized names
+                            position_standardization = {
+                                'rw': 'Right Wing',
+                                'lw': 'Left Wing',
+                                'rm': 'Right Midfield',
+                                'lm': 'Left Midfield',
+                                'cam': 'Attacking Midfield',
+                                'cdm': 'Defensive Midfield',
+                                'cm': 'Central Midfield',
+                                'rb': 'Right-Back',
+                                'lb': 'Left-Back',
+                                'cb': 'Centre-Back',
+                                'cf': 'Centre-Forward',
+                                'st': 'Striker',
+                                'gk': 'Goalkeeper'
+                            }
+                            
+                            # Try to match position abbreviations
+                            matched = False
+                            for abbrev, full_name in position_standardization.items():
+                                if abbrev in position_text.split():
+                                    position = full_name
+                                    matched = True
+                                    break
+                            
+                            # If no abbreviation match, try to standardize full position names
+                            if not matched:
+                                if 'right wing' in position_text:
+                                    position = 'Right Wing'
+                                elif 'left wing' in position_text:
+                                    position = 'Left Wing'
+                                elif 'attacking midfield' in position_text:
+                                    position = 'Attacking Midfield'
+                                elif 'defensive midfield' in position_text:
+                                    position = 'Defensive Midfield'
+                                elif 'central midfield' in position_text:
+                                    position = 'Central Midfield'
+                                elif 'right-back' in position_text or 'right back' in position_text:
+                                    position = 'Right-Back'
+                                elif 'left-back' in position_text or 'left back' in position_text:
+                                    position = 'Left-Back'
+                                elif 'centre-back' in position_text or 'center back' in position_text:
+                                    position = 'Centre-Back'
+                                elif 'striker' in position_text:
+                                    position = 'Striker'
+                                elif 'goalkeeper' in position_text:
+                                    position = 'Goalkeeper'
+                                elif 'forward' in position_text:
+                                    position = 'Centre-Forward'
+                                else:
+                                    position = position_text.title()
+                            
+                        except Exception as e:
+                            print(f"Error parsing position for {name}: {e}")
+                            position = "Unknown"
                     
-                    print(f"Processing {name} (#{squad_number}, {market_value/1000000:.1f}M)")
+                    print(f"Processing {name} ({position}, {market_value/1000000:.1f}M)")
                     
                     # Format market value for display
                     if market_value >= 1000000000:  # Billion
@@ -297,21 +354,97 @@ def get_position_group(position):
     """Convert specific position to position group"""
     position = position.lower()
     
-    forwards = ['striker', 'centre-forward', 'forward', 'left winger', 'right winger', 'attack']
-    midfielders = ['midfield', 'attacking midfield', 'defensive midfield', 'central midfield']
-    defenders = ['defence', 'centre-back', 'left-back', 'right-back', 'defender']
-    goalkeepers = ['goalkeeper', 'keeper']
+    # Dictionary mapping specific positions to their groups
+    position_mappings = {
+        # Forwards
+        'right wing': 'Right Wing',
+        'left wing': 'Left Wing',
+        'centre-forward': 'Striker',
+        'striker': 'Striker',
+        # Midfielders
+        'attacking midfield': 'Central Mid',
+        'central midfield': 'Central Mid',
+        'defensive midfield': 'Central Mid',
+        'right midfield': 'Right Mid',
+        'left midfield': 'Left Mid',
+        # Defenders
+        'centre-back': 'Centre-Back',
+        'right-back': 'Right-Back',
+        'left-back': 'Left-Back',
+        'sweeper': 'Centre-Back',
+        # Goalkeepers
+        'goalkeeper': 'Goalkeeper'
+    }
     
-    if any(pos in position for pos in forwards):
-        return "Forward"
-    elif any(pos in position for pos in midfielders):
-        return "Midfielder"
-    elif any(pos in position for pos in defenders):
-        return "Defender"
-    elif any(pos in position for pos in goalkeepers):
-        return "Goalkeeper"
+    # Try to find an exact match first
+    for pos, group in position_mappings.items():
+        if pos in position:
+            return group
+    
+    # Fallback to basic categories if no specific match
+    if 'right wing' in position:
+        return 'Right Wing'
+    elif 'left wing' in position:
+        return 'Left Wing'
+    elif 'striker' in position or 'forward' in position:
+        return 'Striker'
+    elif 'midfield' in position:
+        if 'right' in position:
+            return 'Right Mid'
+        elif 'left' in position:
+            return 'Left Mid'
+        else:
+            return 'Central Mid'
+    elif 'back' in position or 'defence' in position:
+        if 'right' in position:
+            return 'Right-Back'
+        elif 'left' in position:
+            return 'Left-Back'
+        else:
+            return 'Centre-Back'
+    elif 'keeper' in position:
+        return 'Goalkeeper'
     else:
-        return "Unknown"
+        return position.title()
+
+def are_positions_similar(pos1, pos2):
+    """Determine if two positions are similar enough to warrant a yellow indicator"""
+    # Convert positions to lowercase for comparison
+    pos1 = pos1.lower()
+    pos2 = pos2.lower()
+    
+    # Get standardized position groups
+    group1 = get_position_group(pos1)
+    group2 = get_position_group(pos2)
+    
+    # If they're the same group, they're similar
+    if group1 == group2:
+        return True
+        
+    # Define pairs of similar positions
+    similar_positions = [
+        {'Right Wing', 'Right Mid'},
+        {'Left Wing', 'Left Mid'},
+        {'Attacking Midfield', 'Central Midfield', 'Defensive Midfield'},
+        {'Central Mid'}  # This group includes all central midfield variations
+    ]
+    
+    # Check if positions are in any of the similar groups
+    for group in similar_positions:
+        if group1 in group and group2 in group:
+            return True
+            
+    # Special case for wings - opposite sides are similar
+    wing_pairs = [
+        ('Right Wing', 'Left Wing'),
+        ('Right Mid', 'Left Mid')
+    ]
+    
+    for pos_a, pos_b in wing_pairs:
+        if (group1 == pos_a and group2 == pos_b) or (group1 == pos_b and group2 == pos_a):
+            return True
+    
+    return False
 
 def load_players():
     """Load players from database"""
@@ -411,15 +544,17 @@ def check_guess():
             'team': guessed_player['team'] == daily_player['team'],
             'position': {
                 'exact': guessed_player['position'] == daily_player['position'],
-                'similar': guessed_player['position_group'] == daily_player['position_group']
+                'similar': are_positions_similar(guessed_player['position'], daily_player['position'])
             },
             'age': {
                 'correct': guessed_player['age'] == daily_player['age'],
+                'close': abs(guessed_player['age'] - daily_player['age']) <= 2,
                 'higher': guessed_player['age'] < daily_player['age'],
                 'lower': guessed_player['age'] > daily_player['age']
             },
             'market_value': {
                 'correct': guessed_player['market_value'] == daily_player['market_value'],
+                'close': abs(guessed_player['market_value'] - daily_player['market_value']) <= 10000000,  # Within 10M
                 'higher': guessed_player['market_value'] < daily_player['market_value'],
                 'lower': guessed_player['market_value'] > daily_player['market_value'],
                 'display': daily_player['market_value_display']
