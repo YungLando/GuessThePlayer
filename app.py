@@ -3,40 +3,21 @@ from datetime import datetime
 import json
 import random
 import requests
-from bs4 import BeautifulSoup
 import time
 import sqlite3
 from contextlib import closing
 import os
-import re
+from dotenv import load_dotenv
+from bs4 import BeautifulSoup
 
-# List of user agents to rotate between
-USER_AGENTS = [
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3 Safari/605.1.15',
-    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
-]
+# Load environment variables
+load_dotenv()
 
-# Database setup
+# Configuration
 DATABASE = 'players.db'
-
-def init_db():
-    """Initialize the database with the players table"""
-    with closing(sqlite3.connect(DATABASE)) as db:
-        with open('schema.sql', mode='r') as f:
-            db.cursor().executescript(f.read())
-        db.commit()
-
-def setup_database():
-    """Ensure database and tables exist"""
-    if not os.path.exists(DATABASE):
-        init_db()
 
 # Initialize Flask app
 app = Flask(__name__)
-setup_database()  # Initialize database when app starts
 
 def get_db():
     """Get database connection"""
@@ -44,311 +25,2890 @@ def get_db():
     db.row_factory = sqlite3.Row
     return db
 
-def fetch_players():
-    """Fetch players from Premier League using Transfermarkt's market value page"""
-    players_data = []
-    
-    # Define the teams with their IDs
-    teams = {
-        '11': {'name': 'Arsenal', 'url': 'arsenal'},
-        '281': {'name': 'Manchester City', 'url': 'manchester-city'},
-        # Commented out for testing
-        # '31': {'name': 'Liverpool', 'url': 'liverpool'},
-        # '405': {'name': 'Aston Villa', 'url': 'aston-villa'},
-        # '148': {'name': 'Tottenham', 'url': 'tottenham'},
-        # '985': {'name': 'Manchester United', 'url': 'manchester-united'},
-        # '762': {'name': 'Newcastle United', 'url': 'newcastle-united'},
-        # '1237': {'name': 'Brighton', 'url': 'brighton'},
-        # '379': {'name': 'West Ham', 'url': 'west-ham-united'},
-        # '631': {'name': 'Chelsea', 'url': 'chelsea'},
-        # '1148': {'name': 'Brentford', 'url': 'brentford'},
-        # '543': {'name': 'Wolves', 'url': 'wolverhampton'},
-        # '873': {'name': 'Crystal Palace', 'url': 'crystal-palace'},
-        # '703': {'name': 'Nottingham Forest', 'url': 'nottingham'},
-        # '931': {'name': 'Fulham', 'url': 'fulham'},
-        # '29': {'name': 'Everton', 'url': 'everton'},
-        # '1031': {'name': 'Luton', 'url': 'luton-town'},
-        # '989': {'name': 'Bournemouth', 'url': 'bournemouth'},
-        # '350': {'name': 'Sheffield United', 'url': 'sheffield-united'},
-        # '1132': {'name': 'Burnley', 'url': 'burnley'}
-    }
-    
-    def get_headers():
-        return {
-            'User-Agent': random.choice(USER_AGENTS),
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'DNT': '1',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': 'navigate',
-            'Sec-Fetch-Site': 'none',
-            'Sec-Fetch-User': '?1',
-            'Cache-Control': 'max-age=0'
-        }
+def setup_database():
+    """Create database tables if they don't exist"""
+    with get_db() as db:
+        # Drop existing table to ensure schema consistency
+        db.execute('DROP TABLE IF EXISTS players')
+        
+        db.execute('''
+        CREATE TABLE players (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            position TEXT,
+            nationality TEXT,
+            age INTEGER,
+            team TEXT,
+            league TEXT DEFAULT 'Premier League',
+            appearances INTEGER,
+            starts INTEGER,
+            market_value INTEGER,
+            market_value_display TEXT,
+            last_updated TEXT
+        )
+        ''')
+        db.commit()
 
-    session = requests.Session()
-    processed_players = set()  # Track processed players to avoid duplicates
+def get_premier_league_players():
+    """Get relevant players from Premier League"""
+    # Comprehensive database of Premier League players
+    # Criteria: 15+ appearances OR €10M+ market value
+    players_data = [
+        # ARSENAL
+        {
+            'name': 'Bukayo Saka',
+            'position': 'Right Wing',
+            'nationality': 'England',
+            'age': 22,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 34,
+            'market_value': 120000000,
+            'market_value_display': '€120M'
+        },
+        {
+            'name': 'Martin Odegaard',
+            'position': 'Attacking Midfield',
+            'nationality': 'Norway',
+            'age': 25,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 34,
+            'market_value': 110000000,
+            'market_value_display': '€110M'
+        },
+        {
+            'name': 'William Saliba',
+            'position': 'Centre-Back',
+            'nationality': 'France',
+            'age': 23,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 38,
+            'market_value': 80000000,
+            'market_value_display': '€80M'
+        },
+        {
+            'name': 'Declan Rice',
+            'position': 'Defensive Midfield',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 37,
+            'market_value': 100000000,
+            'market_value_display': '€100M'
+        },
+        {
+            'name': 'Kai Havertz',
+            'position': 'Centre-Forward',
+            'nationality': 'Germany',
+            'age': 25,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 30,
+            'market_value': 70000000,
+            'market_value_display': '€70M'
+        },
+        {
+            'name': 'Gabriel Martinelli',
+            'position': 'Left Wing',
+            'nationality': 'Brazil',
+            'age': 23,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 28,
+            'market_value': 80000000,
+            'market_value_display': '€80M'
+        },
+        {
+            'name': 'Ben White',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 37,
+            'market_value': 55000000,
+            'market_value_display': '€55M'
+        },
+        {
+            'name': 'Gabriel Magalhaes',
+            'position': 'Centre-Back',
+            'nationality': 'Brazil',
+            'age': 26,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 34,
+            'starts': 34,
+            'market_value': 65000000,
+            'market_value_display': '€65M'
+        },
+        {
+            'name': 'Oleksandr Zinchenko',
+            'position': 'Left-Back',
+            'nationality': 'Ukraine',
+            'age': 27,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 18,
+            'market_value': 42000000,
+            'market_value_display': '€42M'
+        },
+        {
+            'name': 'Jakub Kiwior',
+            'position': 'Centre-Back',
+            'nationality': 'Poland',
+            'age': 24,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 15,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Takehiro Tomiyasu',
+            'position': 'Right-Back',
+            'nationality': 'Japan',
+            'age': 25,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 18,
+            'starts': 12,
+            'market_value': 30000000,
+            'market_value_display': '€30M'
+        },
+        {
+            'name': 'Jorginho',
+            'position': 'Central Midfield',
+            'nationality': 'Italy',
+            'age': 32,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 20,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Leandro Trossard',
+            'position': 'Left Wing',
+            'nationality': 'Belgium',
+            'age': 29,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 34,
+            'starts': 15,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'David Raya',
+            'position': 'Goalkeeper',
+            'nationality': 'Spain',
+            'age': 28,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 32,
+            'market_value': 30000000,
+            'market_value_display': '€30M'
+        },
+        {
+            'name': 'Aaron Ramsdale',
+            'position': 'Goalkeeper',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 6,
+            'starts': 6,
+            'market_value': 28000000,
+            'market_value_display': '€28M'
+        },
+        
+        # ASTON VILLA
+        {
+            'name': 'Ollie Watkins',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 28,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 37,
+            'market_value': 65000000,
+            'market_value_display': '€65M'
+        },
+        {
+            'name': 'Douglas Luiz',
+            'position': 'Central Midfield',
+            'nationality': 'Brazil',
+            'age': 26,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 60000000,
+            'market_value_display': '€60M'
+        },
+        {
+            'name': 'Leon Bailey',
+            'position': 'Right Wing',
+            'nationality': 'Jamaica',
+            'age': 26,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 25,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'John McGinn',
+            'position': 'Central Midfield',
+            'nationality': 'Scotland',
+            'age': 29,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 34,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Ezri Konsa',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Emiliano Martinez',
+            'position': 'Goalkeeper',
+            'nationality': 'Argentina',
+            'age': 31,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 28000000,
+            'market_value_display': '€28M'
+        },
+        {
+            'name': 'Pau Torres',
+            'position': 'Centre-Back',
+            'nationality': 'Spain',
+            'age': 27,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 33,
+            'starts': 32,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Lucas Digne',
+            'position': 'Left-Back',
+            'nationality': 'France',
+            'age': 30,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 24,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Matty Cash',
+            'position': 'Right-Back',
+            'nationality': 'Poland',
+            'age': 26,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 28,
+            'starts': 27,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Moussa Diaby',
+            'position': 'Right Wing',
+            'nationality': 'France',
+            'age': 25,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 30,
+            'market_value': 50000000,
+            'market_value_display': '€50M'
+        },
+        {
+            'name': 'Youri Tielemans',
+            'position': 'Central Midfield',
+            'nationality': 'Belgium',
+            'age': 27,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 20,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Nicolo Zaniolo',
+            'position': 'Attacking Midfield',
+            'nationality': 'Italy',
+            'age': 25,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 12,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        
+        # BOURNEMOUTH
+        {
+            'name': 'Dominic Solanke',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 38,
+            'market_value': 40000000,
+            'market_value_display': '€40M'
+        },
+        {
+            'name': 'Philip Billing',
+            'position': 'Central Midfield',
+            'nationality': 'Denmark',
+            'age': 28,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 30,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Neto',
+            'position': 'Goalkeeper',
+            'nationality': 'Brazil',
+            'age': 34,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 37,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Marcus Tavernier',
+            'position': 'Right Wing',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 22000000,
+            'market_value_display': '€22M'
+        },
+        {
+            'name': 'Ryan Christie',
+            'position': 'Attacking Midfield',
+            'nationality': 'Scotland',
+            'age': 29,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 32,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Lloyd Kelly',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 24,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Adam Smith',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 33,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 28,
+            'starts': 27,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Milos Kerkez',
+            'position': 'Left-Back',
+            'nationality': 'Hungary',
+            'age': 20,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 29,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Justin Kluivert',
+            'position': 'Left Wing',
+            'nationality': 'Netherlands',
+            'age': 25,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 25,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        
+        # BRENTFORD
+        {
+            'name': 'Ivan Toney',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 28,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 17,
+            'starts': 17,
+            'market_value': 50000000,
+            'market_value_display': '€50M'
+        },
+        {
+            'name': 'Bryan Mbeumo',
+            'position': 'Right Wing',
+            'nationality': 'Cameroon',
+            'age': 24,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 24,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Yoane Wissa',
+            'position': 'Left Wing',
+            'nationality': 'DR Congo',
+            'age': 27,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 30,
+            'market_value': 30000000,
+            'market_value_display': '€30M'
+        },
+        {
+            'name': 'Mark Flekken',
+            'position': 'Goalkeeper',
+            'nationality': 'Netherlands',
+            'age': 30,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 38,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Christian Norgaard',
+            'position': 'Defensive Midfield',
+            'nationality': 'Denmark',
+            'age': 30,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 28,
+            'starts': 28,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Mathias Jensen',
+            'position': 'Central Midfield',
+            'nationality': 'Denmark',
+            'age': 28,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 33,
+            'market_value': 22000000,
+            'market_value_display': '€22M'
+        },
+        {
+            'name': 'Vitaly Janelt',
+            'position': 'Central Midfield',
+            'nationality': 'Germany',
+            'age': 25,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 28,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Ethan Pinnock',
+            'position': 'Centre-Back',
+            'nationality': 'Jamaica',
+            'age': 31,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Nathan Collins',
+            'position': 'Centre-Back',
+            'nationality': 'Ireland',
+            'age': 23,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 29,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Aaron Hickey',
+            'position': 'Right-Back',
+            'nationality': 'Scotland',
+            'age': 22,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 19,
+            'starts': 18,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Rico Henry',
+            'position': 'Left-Back',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 15,
+            'starts': 15,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Neal Maupay',
+            'position': 'Centre-Forward',
+            'nationality': 'France',
+            'age': 27,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        
+        # BRIGHTON
+        {
+            'name': 'Evan Ferguson',
+            'position': 'Centre-Forward',
+            'nationality': 'Ireland',
+            'age': 19,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 65000000,
+            'market_value_display': '€65M'
+        },
+        {
+            'name': 'Joao Pedro',
+            'position': 'Centre-Forward',
+            'nationality': 'Brazil',
+            'age': 22,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 20,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Simon Adingra',
+            'position': 'Left Wing',
+            'nationality': 'Ivory Coast',
+            'age': 22,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 27,
+            'starts': 18,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Pascal Gross',
+            'position': 'Central Midfield',
+            'nationality': 'Germany',
+            'age': 32,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 37,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Bart Verbruggen',
+            'position': 'Goalkeeper',
+            'nationality': 'Netherlands',
+            'age': 21,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 27,
+            'starts': 27,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Jason Steele',
+            'position': 'Goalkeeper',
+            'nationality': 'England',
+            'age': 33,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 11,
+            'starts': 11,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Lewis Dunk',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 32,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Jan Paul van Hecke',
+            'position': 'Centre-Back',
+            'nationality': 'Netherlands',
+            'age': 23,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Tariq Lamptey',
+            'position': 'Right-Back',
+            'nationality': 'Ghana',
+            'age': 23,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 12,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Pervis Estupinan',
+            'position': 'Left-Back',
+            'nationality': 'Ecuador',
+            'age': 26,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 20,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Billy Gilmour',
+            'position': 'Central Midfield',
+            'nationality': 'Scotland',
+            'age': 23,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Carlos Baleba',
+            'position': 'Defensive Midfield',
+            'nationality': 'Cameroon',
+            'age': 20,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 22,
+            'starts': 15,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Facundo Buonanotte',
+            'position': 'Attacking Midfield',
+            'nationality': 'Argentina',
+            'age': 19,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 12,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Kaoru Mitoma',
+            'position': 'Left Wing',
+            'nationality': 'Japan',
+            'age': 27,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 19,
+            'starts': 18,
+            'market_value': 50000000,
+            'market_value_display': '€50M'
+        },
+        {
+            'name': 'Danny Welbeck',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 33,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        
+        # BURNLEY
+        {
+            'name': 'Lyle Foster',
+            'position': 'Centre-Forward',
+            'nationality': 'South Africa',
+            'age': 24,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 24,
+            'starts': 20,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'James Trafford',
+            'position': 'Goalkeeper',
+            'nationality': 'England',
+            'age': 21,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 28,
+            'starts': 28,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Dara OShea',
+            'position': 'Centre-Back',
+            'nationality': 'Ireland',
+            'age': 25,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 30,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Jordan Beyer',
+            'position': 'Centre-Back',
+            'nationality': 'Germany',
+            'age': 23,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 25,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Connor Roberts',
+            'position': 'Right-Back',
+            'nationality': 'Wales',
+            'age': 28,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 24,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Charlie Taylor',
+            'position': 'Left-Back',
+            'nationality': 'England',
+            'age': 30,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 28,
+            'starts': 27,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Josh Cullen',
+            'position': 'Central Midfield',
+            'nationality': 'Ireland',
+            'age': 28,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Sander Berge',
+            'position': 'Central Midfield',
+            'nationality': 'Norway',
+            'age': 26,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 30,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Wilson Odobert',
+            'position': 'Left Wing',
+            'nationality': 'France',
+            'age': 19,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 25,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Zeki Amdouni',
+            'position': 'Centre-Forward',
+            'nationality': 'Switzerland',
+            'age': 23,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 25,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Jacob Bruun Larsen',
+            'position': 'Right Wing',
+            'nationality': 'Denmark',
+            'age': 25,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Martin Odegaard',
+            'position': 'Attacking Midfield',
+            'nationality': 'Norway',
+            'age': 25,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 34,
+            'market_value': 110000000,
+            'market_value_display': '€110M'
+        },
+        {
+            'name': 'William Saliba',
+            'position': 'Centre-Back',
+            'nationality': 'France',
+            'age': 23,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 38,
+            'market_value': 80000000,
+            'market_value_display': '€80M'
+        },
+        {
+            'name': 'Declan Rice',
+            'position': 'Defensive Midfield',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 37,
+            'market_value': 100000000,
+            'market_value_display': '€100M'
+        },
+        {
+            'name': 'Kai Havertz',
+            'position': 'Centre-Forward',
+            'nationality': 'Germany',
+            'age': 25,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 30,
+            'market_value': 70000000,
+            'market_value_display': '€70M'
+        },
+        {
+            'name': 'Gabriel Martinelli',
+            'position': 'Left Wing',
+            'nationality': 'Brazil',
+            'age': 23,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 28,
+            'market_value': 80000000,
+            'market_value_display': '€80M'
+        },
+        {
+            'name': 'Ben White',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 37,
+            'market_value': 55000000,
+            'market_value_display': '€55M'
+        },
+        {
+            'name': 'Gabriel Magalhaes',
+            'position': 'Centre-Back',
+            'nationality': 'Brazil',
+            'age': 26,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 34,
+            'starts': 34,
+            'market_value': 65000000,
+            'market_value_display': '€65M'
+        },
+        {
+            'name': 'Oleksandr Zinchenko',
+            'position': 'Left-Back',
+            'nationality': 'Ukraine',
+            'age': 27,
+            'team': 'Arsenal',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 18,
+            'market_value': 42000000,
+            'market_value_display': '€42M'
+        },
+        
+        # ASTON VILLA
+        {
+            'name': 'Ollie Watkins',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 28,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 37,
+            'market_value': 65000000,
+            'market_value_display': '€65M'
+        },
+        {
+            'name': 'Douglas Luiz',
+            'position': 'Central Midfield',
+            'nationality': 'Brazil',
+            'age': 26,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 60000000,
+            'market_value_display': '€60M'
+        },
+        {
+            'name': 'Leon Bailey',
+            'position': 'Right Wing',
+            'nationality': 'Jamaica',
+            'age': 26,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 25,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'John McGinn',
+            'position': 'Central Midfield',
+            'nationality': 'Scotland',
+            'age': 29,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 34,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Ezri Konsa',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Aston Villa',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        
+        # BOURNEMOUTH
+        {
+            'name': 'Dominic Solanke',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 38,
+            'market_value': 40000000,
+            'market_value_display': '€40M'
+        },
+        {
+            'name': 'Philip Billing',
+            'position': 'Central Midfield',
+            'nationality': 'Denmark',
+            'age': 28,
+            'team': 'Bournemouth',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 30,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        
+        # BRENTFORD
+        {
+            'name': 'Ivan Toney',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 28,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 17,
+            'starts': 17,
+            'market_value': 50000000,
+            'market_value_display': '€50M'
+        },
+        {
+            'name': 'Bryan Mbeumo',
+            'position': 'Right Wing',
+            'nationality': 'Cameroon',
+            'age': 24,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 24,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Yoane Wissa',
+            'position': 'Left Wing',
+            'nationality': 'DR Congo',
+            'age': 27,
+            'team': 'Brentford',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 30,
+            'market_value': 30000000,
+            'market_value_display': '€30M'
+        },
+        
+        # BRIGHTON
+        {
+            'name': 'Evan Ferguson',
+            'position': 'Centre-Forward',
+            'nationality': 'Ireland',
+            'age': 19,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 65000000,
+            'market_value_display': '€65M'
+        },
+        {
+            'name': 'Joao Pedro',
+            'position': 'Centre-Forward',
+            'nationality': 'Brazil',
+            'age': 22,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 20,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Simon Adingra',
+            'position': 'Left Wing',
+            'nationality': 'Ivory Coast',
+            'age': 22,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 27,
+            'starts': 18,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Pascal Gross',
+            'position': 'Central Midfield',
+            'nationality': 'Germany',
+            'age': 32,
+            'team': 'Brighton',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 37,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        
+        # BURNLEY
+        {
+            'name': 'Lyle Foster',
+            'position': 'Centre-Forward',
+            'nationality': 'South Africa',
+            'age': 24,
+            'team': 'Burnley',
+            'league': 'Premier League',
+            'appearances': 24,
+            'starts': 20,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        
+        # CHELSEA
+        {
+            'name': 'Cole Palmer',
+            'position': 'Right Wing',
+            'nationality': 'England',
+            'age': 22,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 33,
+            'starts': 30,
+            'market_value': 80000000,
+            'market_value_display': '€80M'
+        },
+        {
+            'name': 'Enzo Fernandez',
+            'position': 'Central Midfield',
+            'nationality': 'Argentina',
+            'age': 23,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 31,
+            'market_value': 80000000,
+            'market_value_display': '€80M'
+        },
+        {
+            'name': 'Moises Caicedo',
+            'position': 'Defensive Midfield',
+            'nationality': 'Ecuador',
+            'age': 22,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 33,
+            'starts': 32,
+            'market_value': 90000000,
+            'market_value_display': '€90M'
+        },
+        {
+            'name': 'Nicolas Jackson',
+            'position': 'Centre-Forward',
+            'nationality': 'Senegal',
+            'age': 23,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 30,
+            'market_value': 55000000,
+            'market_value_display': '€55M'
+        },
+        {
+            'name': 'Conor Gallagher',
+            'position': 'Central Midfield',
+            'nationality': 'England',
+            'age': 24,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 35,
+            'market_value': 42000000,
+            'market_value_display': '€42M'
+        },
+        {
+            'name': 'Malo Gusto',
+            'position': 'Right-Back',
+            'nationality': 'France',
+            'age': 20,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 23,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Robert Sanchez',
+            'position': 'Goalkeeper',
+            'nationality': 'Spain',
+            'age': 26,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 20,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Djordje Petrovic',
+            'position': 'Goalkeeper',
+            'nationality': 'Serbia',
+            'age': 24,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 18,
+            'starts': 18,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Thiago Silva',
+            'position': 'Centre-Back',
+            'nationality': 'Brazil',
+            'age': 39,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 27,
+            'starts': 27,
+            'market_value': 2000000,
+            'market_value_display': '€2M'
+        },
+        {
+            'name': 'Axel Disasi',
+            'position': 'Centre-Back',
+            'nationality': 'France',
+            'age': 26,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Levi Colwill',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 21,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 30,
+            'market_value': 55000000,
+            'market_value_display': '€55M'
+        },
+        {
+            'name': 'Ben Chilwell',
+            'position': 'Left-Back',
+            'nationality': 'England',
+            'age': 27,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 13,
+            'starts': 12,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Marc Cucurella',
+            'position': 'Left-Back',
+            'nationality': 'Spain',
+            'age': 26,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 18,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Raheem Sterling',
+            'position': 'Left Wing',
+            'nationality': 'England',
+            'age': 29,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 31,
+            'starts': 28,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Mykhailo Mudryk',
+            'position': 'Left Wing',
+            'nationality': 'Ukraine',
+            'age': 23,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 40000000,
+            'market_value_display': '€40M'
+        },
+        {
+            'name': 'Noni Madueke',
+            'position': 'Right Wing',
+            'nationality': 'England',
+            'age': 22,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 30000000,
+            'market_value_display': '€30M'
+        },
+        {
+            'name': 'Christopher Nkunku',
+            'position': 'Centre-Forward',
+            'nationality': 'France',
+            'age': 26,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 10,
+            'starts': 8,
+            'market_value': 60000000,
+            'market_value_display': '€60M'
+        },
+        {
+            'name': 'Armando Broja',
+            'position': 'Centre-Forward',
+            'nationality': 'Albania',
+            'age': 22,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 15,
+            'starts': 8,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Lesley Ugochukwu',
+            'position': 'Defensive Midfield',
+            'nationality': 'France',
+            'age': 20,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 15,
+            'starts': 8,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Romeo Lavia',
+            'position': 'Defensive Midfield',
+            'nationality': 'Belgium',
+            'age': 20,
+            'team': 'Chelsea',
+            'league': 'Premier League',
+            'appearances': 1,
+            'starts': 1,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        
+        # CRYSTAL PALACE
+        {
+            'name': 'Eberechi Eze',
+            'position': 'Attacking Midfield',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 27,
+            'starts': 25,
+            'market_value': 50000000,
+            'market_value_display': '€50M'
+        },
+        {
+            'name': 'Michael Olise',
+            'position': 'Right Wing',
+            'nationality': 'France',
+            'age': 22,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 19,
+            'starts': 18,
+            'market_value': 55000000,
+            'market_value_display': '€55M'
+        },
+        {
+            'name': 'Jean-Philippe Mateta',
+            'position': 'Centre-Forward',
+            'nationality': 'France',
+            'age': 27,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 25,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Sam Johnstone',
+            'position': 'Goalkeeper',
+            'nationality': 'England',
+            'age': 31,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 20,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Dean Henderson',
+            'position': 'Goalkeeper',
+            'nationality': 'England',
+            'age': 27,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 18,
+            'starts': 18,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Joachim Andersen',
+            'position': 'Centre-Back',
+            'nationality': 'Denmark',
+            'age': 28,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Marc Guehi',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 23,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 30,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Nathaniel Clyne',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 33,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 25,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Daniel Munoz',
+            'position': 'Right-Back',
+            'nationality': 'Colombia',
+            'age': 28,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 12,
+            'starts': 12,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Tyrick Mitchell',
+            'position': 'Left-Back',
+            'nationality': 'England',
+            'age': 24,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 30,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Cheick Doucoure',
+            'position': 'Defensive Midfield',
+            'nationality': 'Mali',
+            'age': 24,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 15,
+            'starts': 15,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Will Hughes',
+            'position': 'Central Midfield',
+            'nationality': 'England',
+            'age': 29,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Jefferson Lerma',
+            'position': 'Central Midfield',
+            'nationality': 'Colombia',
+            'age': 29,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Jordan Ayew',
+            'position': 'Right Wing',
+            'nationality': 'Ghana',
+            'age': 32,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 30,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Odsonne Edouard',
+            'position': 'Centre-Forward',
+            'nationality': 'France',
+            'age': 26,
+            'team': 'Crystal Palace',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        
+        # EVERTON
+        {
+            'name': 'Jarrad Branthwaite',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 22,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Dominic Calvert-Lewin',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 27,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 30,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Abdoulaye Doucoure',
+            'position': 'Central Midfield',
+            'nationality': 'Mali',
+            'age': 31,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 30,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Jordan Pickford',
+            'position': 'Goalkeeper',
+            'nationality': 'England',
+            'age': 30,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 38,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'James Tarkowski',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 31,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 38,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Vitalii Mykolenko',
+            'position': 'Left-Back',
+            'nationality': 'Ukraine',
+            'age': 25,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 30,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Seamus Coleman',
+            'position': 'Right-Back',
+            'nationality': 'Ireland',
+            'age': 35,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 20,
+            'market_value': 5000000,
+            'market_value_display': '€5M'
+        },
+        {
+            'name': 'Ashley Young',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 38,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 18,
+            'starts': 18,
+            'market_value': 2000000,
+            'market_value_display': '€2M'
+        },
+        {
+            'name': 'Idrissa Gueye',
+            'position': 'Defensive Midfield',
+            'nationality': 'Senegal',
+            'age': 34,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Amadou Onana',
+            'position': 'Defensive Midfield',
+            'nationality': 'Belgium',
+            'age': 22,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 50000000,
+            'market_value_display': '€50M'
+        },
+        {
+            'name': 'James Garner',
+            'position': 'Central Midfield',
+            'nationality': 'England',
+            'age': 23,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Jack Harrison',
+            'position': 'Left Wing',
+            'nationality': 'England',
+            'age': 27,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Dwight McNeil',
+            'position': 'Left Wing',
+            'nationality': 'England',
+            'age': 24,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 32,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Beto',
+            'position': 'Centre-Forward',
+            'nationality': 'Portugal',
+            'age': 26,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Arnaut Danjuma',
+            'position': 'Left Wing',
+            'nationality': 'Netherlands',
+            'age': 27,
+            'team': 'Everton',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 10,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        
+        # FULHAM
+        {
+            'name': 'Joao Palhinha',
+            'position': 'Defensive Midfield',
+            'nationality': 'Portugal',
+            'age': 28,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 33,
+            'starts': 33,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Andreas Pereira',
+            'position': 'Attacking Midfield',
+            'nationality': 'Brazil',
+            'age': 28,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 33,
+            'starts': 32,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Willian',
+            'position': 'Left Wing',
+            'nationality': 'Brazil',
+            'age': 35,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Bernd Leno',
+            'position': 'Goalkeeper',
+            'nationality': 'Germany',
+            'age': 32,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 38,
+            'starts': 38,
+            'market_value': 18000000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Tosin Adarabioyo',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 25,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Calvin Bassey',
+            'position': 'Centre-Back',
+            'nationality': 'Nigeria',
+            'age': 24,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 22,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Issa Diop',
+            'position': 'Centre-Back',
+            'nationality': 'France',
+            'age': 27,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 18,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Kenny Tete',
+            'position': 'Right-Back',
+            'nationality': 'Netherlands',
+            'age': 28,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 25,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Antonee Robinson',
+            'position': 'Left-Back',
+            'nationality': 'USA',
+            'age': 26,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Harrison Reed',
+            'position': 'Central Midfield',
+            'nationality': 'England',
+            'age': 29,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 25,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Tom Cairney',
+            'position': 'Central Midfield',
+            'nationality': 'Scotland',
+            'age': 33,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Alex Iwobi',
+            'position': 'Right Wing',
+            'nationality': 'Nigeria',
+            'age': 28,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 32,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Bobby De Cordova-Reid',
+            'position': 'Right Wing',
+            'nationality': 'Jamaica',
+            'age': 31,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 30,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Raul Jimenez',
+            'position': 'Centre-Forward',
+            'nationality': 'Mexico',
+            'age': 33,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Rodrigo Muniz',
+            'position': 'Centre-Forward',
+            'nationality': 'Brazil',
+            'age': 23,
+            'team': 'Fulham',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 15,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        
+        # LIVERPOOL
+        {
+            'name': 'Mohamed Salah',
+            'position': 'Right Wing',
+            'nationality': 'Egypt',
+            'age': 32,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 31,
+            'market_value': 65000000,
+            'market_value_display': '€65M'
+        },
+        {
+            'name': 'Virgil van Dijk',
+            'position': 'Centre-Back',
+            'nationality': 'Netherlands',
+            'age': 33,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 36,
+            'starts': 36,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Darwin Nunez',
+            'position': 'Centre-Forward',
+            'nationality': 'Uruguay',
+            'age': 25,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 36,
+            'starts': 25,
+            'market_value': 70000000,
+            'market_value_display': '€70M'
+        },
+        {
+            'name': 'Luis Diaz',
+            'position': 'Left Wing',
+            'nationality': 'Colombia',
+            'age': 27,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 36,
+            'starts': 32,
+            'market_value': 75000000,
+            'market_value_display': '€75M'
+        },
+        {
+            'name': 'Trent Alexander-Arnold',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 28,
+            'starts': 28,
+            'market_value': 70000000,
+            'market_value_display': '€70M'
+        },
+        {
+            'name': 'Andy Robertson',
+            'position': 'Left-Back',
+            'nationality': 'Scotland',
+            'age': 30,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 23,
+            'starts': 22,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Alisson',
+            'position': 'Goalkeeper',
+            'nationality': 'Brazil',
+            'age': 31,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 28,
+            'starts': 28,
+            'market_value': 32000000,
+            'market_value_display': '€32M'
+        },
+        {
+            'name': 'Caoimhin Kelleher',
+            'position': 'Goalkeeper',
+            'nationality': 'Ireland',
+            'age': 25,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 10,
+            'starts': 10,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Ibrahima Konate',
+            'position': 'Centre-Back',
+            'nationality': 'France',
+            'age': 25,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 25,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Joel Matip',
+            'position': 'Centre-Back',
+            'nationality': 'Cameroon',
+            'age': 32,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 10,
+            'starts': 9,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Joe Gomez',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 27,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 25,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Kostas Tsimikas',
+            'position': 'Left-Back',
+            'nationality': 'Greece',
+            'age': 28,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 15,
+            'starts': 13,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Conor Bradley',
+            'position': 'Right-Back',
+            'nationality': 'Northern Ireland',
+            'age': 20,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 10,
+            'starts': 10,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Alexis Mac Allister',
+            'position': 'Central Midfield',
+            'nationality': 'Argentina',
+            'age': 25,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 33,
+            'market_value': 70000000,
+            'market_value_display': '€70M'
+        },
+        {
+            'name': 'Dominik Szoboszlai',
+            'position': 'Central Midfield',
+            'nationality': 'Hungary',
+            'age': 23,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 28,
+            'starts': 28,
+            'market_value': 75000000,
+            'market_value_display': '€75M'
+        },
+        {
+            'name': 'Wataru Endo',
+            'position': 'Defensive Midfield',
+            'nationality': 'Japan',
+            'age': 31,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Curtis Jones',
+            'position': 'Central Midfield',
+            'nationality': 'England',
+            'age': 23,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Harvey Elliott',
+            'position': 'Right Wing',
+            'nationality': 'England',
+            'age': 21,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 20,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Cody Gakpo',
+            'position': 'Centre-Forward',
+            'nationality': 'Netherlands',
+            'age': 25,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 25,
+            'market_value': 55000000,
+            'market_value_display': '€55M'
+        },
+        {
+            'name': 'Diogo Jota',
+            'position': 'Left Wing',
+            'nationality': 'Portugal',
+            'age': 27,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 15,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Ryan Gravenberch',
+            'position': 'Central Midfield',
+            'nationality': 'Netherlands',
+            'age': 22,
+            'team': 'Liverpool',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        
+        # LUTON TOWN
+        {
+            'name': 'Carlton Morris',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 28,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 35,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Thomas Kaminski',
+            'position': 'Goalkeeper',
+            'nationality': 'Belgium',
+            'age': 31,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Teden Mengi',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 22,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 30,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Gabriel Osho',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 25,
+            'market_value': 10000000,
+            'market_value_display': '€10M'
+        },
+        {
+            'name': 'Alfie Doughty',
+            'position': 'Left-Back',
+            'nationality': 'England',
+            'age': 24,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Ross Barkley',
+            'position': 'Central Midfield',
+            'nationality': 'England',
+            'age': 30,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 30,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Albert Sambi Lokonga',
+            'position': 'Central Midfield',
+            'nationality': 'Belgium',
+            'age': 24,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 15,
+            'starts': 15,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Jordan Clark',
+            'position': 'Central Midfield',
+            'nationality': 'England',
+            'age': 30,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 8000000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Chiedozie Ogbene',
+            'position': 'Right Wing',
+            'nationality': 'Ireland',
+            'age': 26,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 32,
+            'market_value': 12000000,
+            'market_value_display': '€12M'
+        },
+        {
+            'name': 'Elijah Adebayo',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 10000000,
+            'market_value_display': '€10M'
+        },
+        {
+            'name': 'Tahith Chong',
+            'position': 'Left Wing',
+            'nationality': 'Netherlands',
+            'age': 24,
+            'team': 'Luton Town',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 25,
+            'market_value': 10000000,
+            'market_value_display': '€10M'
+        },
+        
+        # MANCHESTER CITY
+        {
+            'name': 'Erling Haaland',
+            'position': 'Centre-Forward',
+            'nationality': 'Norway',
+            'age': 24,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 33,
+            'market_value': 180000000,
+            'market_value_display': '€180M'
+        },
+        {
+            'name': 'Kevin De Bruyne',
+            'position': 'Attacking Midfield',
+            'nationality': 'Belgium',
+            'age': 33,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 18,
+            'starts': 15,
+            'market_value': 60000000,
+            'market_value_display': '€60M'
+        },
+        {
+            'name': 'Phil Foden',
+            'position': 'Right Wing',
+            'nationality': 'England',
+            'age': 24,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 32,
+            'market_value': 130000000,
+            'market_value_display': '€130M'
+        },
+        {
+            'name': 'Ruben Dias',
+            'position': 'Centre-Back',
+            'nationality': 'Portugal',
+            'age': 27,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 29,
+            'market_value': 80000000,
+            'market_value_display': '€80M'
+        },
+        {
+            'name': 'Rodri',
+            'position': 'Defensive Midfield',
+            'nationality': 'Spain',
+            'age': 28,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 34,
+            'starts': 33,
+            'market_value': 110000000,
+            'market_value_display': '€110M'
+        },
+        {
+            'name': 'Bernardo Silva',
+            'position': 'Right Wing',
+            'nationality': 'Portugal',
+            'age': 29,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 32,
+            'market_value': 80000000,
+            'market_value_display': '€80M'
+        },
+        {
+            'name': 'Jack Grealish',
+            'position': 'Left Wing',
+            'nationality': 'England',
+            'age': 28,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 15,
+            'market_value': 55000000,
+            'market_value_display': '€55M'
+        },
+        {
+            'name': 'Ederson',
+            'position': 'Goalkeeper',
+            'nationality': 'Brazil',
+            'age': 30,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 35,
+            'market_value': 40000000,
+            'market_value_display': '€40M'
+        },
+        {
+            'name': 'Stefan Ortega',
+            'position': 'Goalkeeper',
+            'nationality': 'Germany',
+            'age': 31,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 3,
+            'starts': 3,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'John Stones',
+            'position': 'Centre-Back',
+            'nationality': 'England',
+            'age': 30,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 16,
+            'starts': 15,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Manuel Akanji',
+            'position': 'Centre-Back',
+            'nationality': 'Switzerland',
+            'age': 28,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Nathan Ake',
+            'position': 'Centre-Back',
+            'nationality': 'Netherlands',
+            'age': 29,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 22,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Kyle Walker',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 34,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 30,
+            'market_value': 15000000,
+            'market_value_display': '€15M'
+        },
+        {
+            'name': 'Rico Lewis',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 19,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 20,
+            'starts': 15,
+            'market_value': 35000000,
+            'market_value_display': '€35M'
+        },
+        {
+            'name': 'Josko Gvardiol',
+            'position': 'Left-Back',
+            'nationality': 'Croatia',
+            'age': 22,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 30,
+            'starts': 28,
+            'market_value': 75000000,
+            'market_value_display': '€75M'
+        },
+        {
+            'name': 'Matheus Nunes',
+            'position': 'Central Midfield',
+            'nationality': 'Portugal',
+            'age': 25,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 45000000,
+            'market_value_display': '€45M'
+        },
+        {
+            'name': 'Mateo Kovacic',
+            'position': 'Central Midfield',
+            'nationality': 'Croatia',
+            'age': 30,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 20,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        {
+            'name': 'Kalvin Phillips',
+            'position': 'Defensive Midfield',
+            'nationality': 'England',
+            'age': 28,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 4,
+            'starts': 2,
+            'market_value': 20000000,
+            'market_value_display': '€20M'
+        },
+        {
+            'name': 'Jeremy Doku',
+            'position': 'Left Wing',
+            'nationality': 'Belgium',
+            'age': 22,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 25,
+            'starts': 15,
+            'market_value': 50000000,
+            'market_value_display': '€50M'
+        },
+        {
+            'name': 'Julian Alvarez',
+            'position': 'Centre-Forward',
+            'nationality': 'Argentina',
+            'age': 24,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 35,
+            'starts': 25,
+            'market_value': 90000000,
+            'market_value_display': '€90M'
+        },
+        {
+            'name': 'Oscar Bobb',
+            'position': 'Right Wing',
+            'nationality': 'Norway',
+            'age': 20,
+            'team': 'Manchester City',
+            'league': 'Premier League',
+            'appearances': 15,
+            'starts': 8,
+            'market_value': 25000000,
+            'market_value_display': '€25M'
+        },
+        # Add Leicester City
+        {
+            'name': 'Kiernan Dewsbury-Hall',
+            'position': 'Central Midfield',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Leicester City',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 43,
+            'market_value': 28_000_000,
+            'market_value_display': '€28M'
+        },
+        {
+            'name': 'Jamie Vardy',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 37,
+            'team': 'Leicester City',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 20,
+            'market_value': 2_000_000,
+            'market_value_display': '€2M'
+        },
+        {
+            'name': 'Wout Faes',
+            'position': 'Centre-Back',
+            'nationality': 'Belgium',
+            'age': 26,
+            'team': 'Leicester City',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 44,
+            'market_value': 18_000_000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Mads Hermansen',
+            'position': 'Goalkeeper',
+            'nationality': 'Denmark',
+            'age': 24,
+            'team': 'Leicester City',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 44,
+            'market_value': 10_000_000,
+            'market_value_display': '€10M'
+        },
+        {
+            'name': 'Wilfred Ndidi',
+            'position': 'Defensive Midfield',
+            'nationality': 'Nigeria',
+            'age': 27,
+            'team': 'Leicester City',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 28,
+            'market_value': 16_000_000,
+            'market_value_display': '€16M'
+        },
+        {
+            'name': 'Stephy Mavididi',
+            'position': 'Left Wing',
+            'nationality': 'England',
+            'age': 26,
+            'team': 'Leicester City',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 41,
+            'market_value': 12_000_000,
+            'market_value_display': '€12M'
+        },
+        # Add Ipswich Town
+        {
+            'name': 'Leif Davis',
+            'position': 'Left-Back',
+            'nationality': 'England',
+            'age': 24,
+            'team': 'Ipswich Town',
+            'league': 'Premier League',
+            'appearances': 46,
+            'starts': 46,
+            'market_value': 10_000_000,
+            'market_value_display': '€10M'
+        },
+        {
+            'name': 'Conor Chaplin',
+            'position': 'Attacking Midfield',
+            'nationality': 'England',
+            'age': 27,
+            'team': 'Ipswich Town',
+            'league': 'Premier League',
+            'appearances': 46,
+            'starts': 44,
+            'market_value': 5_000_000,
+            'market_value_display': '€5M'
+        },
+        {
+            'name': 'Sam Morsy',
+            'position': 'Central Midfield',
+            'nationality': 'Egypt',
+            'age': 32,
+            'team': 'Ipswich Town',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 44,
+            'market_value': 2_000_000,
+            'market_value_display': '€2M'
+        },
+        {
+            'name': 'Vaclav Hladky',
+            'position': 'Goalkeeper',
+            'nationality': 'Czech Republic',
+            'age': 33,
+            'team': 'Ipswich Town',
+            'league': 'Premier League',
+            'appearances': 46,
+            'starts': 46,
+            'market_value': 1_000_000,
+            'market_value_display': '€1M'
+        },
+        {
+            'name': 'George Hirst',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Ipswich Town',
+            'league': 'Premier League',
+            'appearances': 32,
+            'starts': 25,
+            'market_value': 3_000_000,
+            'market_value_display': '€3M'
+        },
+        # Add Southampton
+        {
+            'name': 'Adam Armstrong',
+            'position': 'Centre-Forward',
+            'nationality': 'England',
+            'age': 27,
+            'team': 'Southampton',
+            'league': 'Premier League',
+            'appearances': 46,
+            'starts': 44,
+            'market_value': 10_000_000,
+            'market_value_display': '€10M'
+        },
+        {
+            'name': 'Kyle Walker-Peters',
+            'position': 'Right-Back',
+            'nationality': 'England',
+            'age': 27,
+            'team': 'Southampton',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 44,
+            'market_value': 18_000_000,
+            'market_value_display': '€18M'
+        },
+        {
+            'name': 'Gavin Bazunu',
+            'position': 'Goalkeeper',
+            'nationality': 'Ireland',
+            'age': 22,
+            'team': 'Southampton',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 44,
+            'market_value': 10_000_000,
+            'market_value_display': '€10M'
+        },
+        {
+            'name': 'Che Adams',
+            'position': 'Centre-Forward',
+            'nationality': 'Scotland',
+            'age': 28,
+            'team': 'Southampton',
+            'league': 'Premier League',
+            'appearances': 40,
+            'starts': 30,
+            'market_value': 10_000_000,
+            'market_value_display': '€10M'
+        },
+        {
+            'name': 'Will Smallbone',
+            'position': 'Central Midfield',
+            'nationality': 'Ireland',
+            'age': 24,
+            'team': 'Southampton',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 40,
+            'market_value': 6_000_000,
+            'market_value_display': '€6M'
+        },
+        {
+            'name': 'Jan Bednarek',
+            'position': 'Centre-Back',
+            'nationality': 'Poland',
+            'age': 28,
+            'team': 'Southampton',
+            'league': 'Premier League',
+            'appearances': 44,
+            'starts': 44,
+            'market_value': 8_000_000,
+            'market_value_display': '€8M'
+        },
+        {
+            'name': 'Flynn Downes',
+            'position': 'Defensive Midfield',
+            'nationality': 'England',
+            'age': 25,
+            'team': 'Southampton',
+            'league': 'Premier League',
+            'appearances': 37,
+            'starts': 35,
+            'market_value': 8_000_000,
+            'market_value_display': '€8M'
+        }
+    ]
     
-    def make_request(url, retry_count=0):
-        """Make a request with retry logic and random delays"""
-        if retry_count >= 3:
-            print(f"Failed to fetch {url} after 3 retries")
-            return None
-            
-        try:
-            delay = random.uniform(5 + (retry_count * 5), 15 + (retry_count * 5))
-            print(f"Waiting {delay:.1f} seconds before request...")
-            time.sleep(delay)
-            
-            response = session.get(url, headers=get_headers())
-            
-            if response.status_code == 200:
-                if 'text/html' in response.headers.get('Content-Type', ''):
-                    return response
-                else:
-                    print(f"Received non-HTML response from {url}")
-                    return None
-            elif response.status_code == 503 or response.status_code == 429:
-                print(f"Rate limited on {url}, retrying after longer delay...")
-                time.sleep(random.uniform(15 * (retry_count + 1), 30 * (retry_count + 1)))
-                return make_request(url, retry_count + 1)
-            else:
-                print(f"Failed to fetch {url}. Status code: {response.status_code}")
-                return None
-        except requests.exceptions.RequestException as e:
-            print(f"Error making request to {url}: {e}")
-            return None
+    return players_data
+
+def fetch_players():
+    """Fetch players using static data"""
+    print("Fetching Premier League players from static data...")
     
-    try:
-        # Iterate through each team
-        for team_id, team_info in teams.items():
-            print(f"Fetching players from {team_info['name']}...")
-            url = f'https://www.transfermarkt.com/{team_info["url"]}/startseite/verein/{team_id}'
-            
-            response = make_request(url)
-            if not response:
-                continue
-                
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # Get player rows from the squad table
-            player_rows = soup.select("table.items tbody tr.odd, table.items tbody tr.even")
-            print(f"Found {len(player_rows)} players for {team_info['name']}")
-            
-            for row in player_rows:
-                try:
-                    # Get player name
-                    name_cell = row.select_one("td.hauptlink a")
-                    if not name_cell:
-                        continue
-                    name = name_cell.text.strip()
-                    
-                    # Skip if we've already processed this player
-                    if name.lower() in processed_players:
-                        print(f"Skipping duplicate player: {name}")
-                        continue
-                    
-                    # Debug: Print the row HTML to see structure
-                    print(f"\nRow HTML for {name}:")
-                    print(row.prettify())
-                    
-                    # Get squad number to filter for first team players
-                    squad_number = None
-                    number_cell = row.select_one("td.zentriert .rn_nummer")
-                    if number_cell:
-                        try:
-                            number_text = number_cell.text.strip()
-                            if number_text.isdigit():
-                                squad_number = int(number_text)
-                                print(f"Found squad number for {name}: {squad_number}")
-                        except (ValueError, AttributeError) as e:
-                            print(f"Error parsing squad number for {name}: {e}")
-                    
-                    # Get age from the date cell (3rd td which contains birth date and age in parentheses)
-                    age = 0
-                    date_cell = row.select_one("td:nth-child(3)")
-                    if date_cell:
-                        try:
-                            # Look for number in parentheses, e.g., "(24)"
-                            age_match = re.search(r'\((\d+)\)', date_cell.text.strip())
-                            if age_match:
-                                age = int(age_match.group(1))
-                                print(f"Found age for {name}: {age}")
-                        except (ValueError, AttributeError) as e:
-                            print(f"Error parsing age for {name}: {e}")
-                    
-                    if age == 0:
-                        print(f"Could not find age for {name}")
-                    
-                    # Get market value and format it
-                    market_value = 0
-                    value_cell = row.select_one("td.rechts.hauptlink a")
-                    if value_cell:
-                        try:
-                            value_text = value_cell.text.strip()
-                            # Convert value text (e.g., "€40.00m" or "€800Th.") to numeric
-                            if 'm' in value_text.lower():
-                                # Value in millions
-                                value_num = float(value_text.replace('€', '').replace('m', '').strip())
-                                market_value = value_num * 1000000
-                            elif 'th.' in value_text.lower():
-                                # Value in thousands
-                                value_num = float(value_text.replace('€', '').replace('Th.', '').strip())
-                                market_value = value_num * 1000
-                        except (ValueError, AttributeError) as e:
-                            print(f"Error parsing market value for {name}: {e}")
-                    
-                    # Get player ID from their profile URL
-                    player_id = None
-                    player_link = row.select_one("td.hauptlink a[href*='/profil/spieler/']")
-                    if player_link:
-                        try:
-                            player_id = player_link['href'].split('/spieler/')[1].split('/')[0]
-                            print(f"Found player ID for {name}: {player_id}")
-                        except (IndexError, KeyError) as e:
-                            print(f"Error getting player ID for {name}: {e}")
-                    
-                    # Skip players with low market value
-                    # This way we keep expensive players that are more likely to be well-known
-                    if market_value < 5000000:  # Less than 5M euros
-                        print(f"Skipping {name} - Value: {market_value/1000000:.1f}M")
-                        continue
-                    
-                    processed_players.add(name.lower())
-                    
-                    # Get position - clean up and maintain specific position
-                    position_cell = row.select_one("td:nth-child(2)")
-                    position = "Unknown"
-                    if position_cell:
-                        try:
-                            # Get the position text
-                            position_text = position_cell.text.strip()
-                            # Remove the player name if it appears in the position
-                            position_text = position_text.replace(name, "").strip()
-                            
-                            # Clean and standardize position names
-                            position_text = position_text.lower()
-                            
-                            # Map common position variations to standardized names
-                            position_standardization = {
-                                'rw': 'Right Wing',
-                                'lw': 'Left Wing',
-                                'rm': 'Right Midfield',
-                                'lm': 'Left Midfield',
-                                'cam': 'Attacking Midfield',
-                                'cdm': 'Defensive Midfield',
-                                'cm': 'Central Midfield',
-                                'rb': 'Right-Back',
-                                'lb': 'Left-Back',
-                                'cb': 'Centre-Back',
-                                'cf': 'Centre-Forward',
-                                'st': 'Striker',
-                                'gk': 'Goalkeeper'
-                            }
-                            
-                            # Try to match position abbreviations
-                            matched = False
-                            for abbrev, full_name in position_standardization.items():
-                                if abbrev in position_text.split():
-                                    position = full_name
-                                    matched = True
-                                    break
-                            
-                            # If no abbreviation match, try to standardize full position names
-                            if not matched:
-                                if 'right wing' in position_text:
-                                    position = 'Right Wing'
-                                elif 'left wing' in position_text:
-                                    position = 'Left Wing'
-                                elif 'attacking midfield' in position_text:
-                                    position = 'Attacking Midfield'
-                                elif 'defensive midfield' in position_text:
-                                    position = 'Defensive Midfield'
-                                elif 'central midfield' in position_text:
-                                    position = 'Central Midfield'
-                                elif 'right-back' in position_text or 'right back' in position_text:
-                                    position = 'Right-Back'
-                                elif 'left-back' in position_text or 'left back' in position_text:
-                                    position = 'Left-Back'
-                                elif 'centre-back' in position_text or 'center back' in position_text:
-                                    position = 'Centre-Back'
-                                elif 'striker' in position_text:
-                                    position = 'Striker'
-                                elif 'goalkeeper' in position_text:
-                                    position = 'Goalkeeper'
-                                elif 'forward' in position_text:
-                                    position = 'Centre-Forward'
-                                else:
-                                    position = position_text.title()
-                            
-                        except Exception as e:
-                            print(f"Error parsing position for {name}: {e}")
-                            position = "Unknown"
-                    
-                    print(f"Processing {name} ({position}, {market_value/1000000:.1f}M)")
-                    
-                    # Format market value for display
-                    if market_value >= 1000000000:  # Billion
-                        market_value_display = f"€{market_value/1000000000:.1f}B"
-                    elif market_value >= 1000000:  # Million
-                        market_value_display = f"€{market_value/1000000:.1f}M"
-                    else:  # Thousand
-                        market_value_display = f"€{market_value/1000:.0f}K"
-                    
-                    # Get nationality
-                    nation_cell = row.select_one("td.zentriert img.flaggenrahmen")
-                    nation = nation_cell['title'].strip() if nation_cell else "Unknown"
-                    nation_code = nation_cell['src'].split('/')[-1].split('.')[0].upper() if nation_cell else ""
-                    
-                    players_data.append({
-                        "name": name,
-                        "nation": nation,
-                        "nation_code": nation_code,
-                        "league": "Premier League",
-                        "team": team_info['name'],
-                        "position": position,
-                        "position_group": get_position_group(position),
-                        "age": age,
-                        "market_value": market_value,
-                        "market_value_display": market_value_display,
-                        "last_updated": datetime.now().strftime('%Y-%m-%d')
-                    })
-                    print(f"Added {name} to database")
-                    
-                except Exception as e:
-                    print(f"Error processing player: {e}")
-                    continue
-            
-            # Add delay between teams
-            time.sleep(random.uniform(10, 20))
-        
-        print(f"Successfully fetched players from {len(teams)} Premier League teams")
-        
-        if len(players_data) == 0:
-            print("No players were added. This might indicate an issue with the scraping.")
-            return []
-        
-        # Update database
-        with closing(get_db()) as db:
-            # Clear existing players
-            db.execute('DELETE FROM players')
-            
-            # Insert new players
-            db.executemany('''
-                INSERT INTO players (name, nation, nation_code, league, team, position, position_group, age, market_value, market_value_display, last_updated)
-                VALUES (:name, :nation, :nation_code, :league, :team, :position, :position_group, :age, :market_value, :market_value_display, :last_updated)
-            ''', players_data)
-            
-            db.commit()
-        
-        return players_data
-        
-    except Exception as e:
-        print(f"Error fetching players: {e}")
-        return []
+    players_data = get_premier_league_players()
+    
+    # Save to database
+    save_players_to_db(players_data)
+    print(f"Successfully fetched and saved {len(players_data)} players")
+    
+    # Debug: Show some of the players we found
+    if players_data:
+        print("Sample players found:")
+        for i, player in enumerate(players_data[:5]):
+            print(f"  {i+1}. {player['name']} ({player['team']}) - {player['appearances']} apps")
+    
+    return players_data
 
 def get_position_group(position):
     """Convert specific position to position group"""
@@ -474,6 +3034,24 @@ def get_daily_player():
         
         return dict(player) if player else None
 
+def save_players_to_db(players_data):
+    """Save players to database"""
+    with get_db() as db:
+        # Clear existing players
+        db.execute('DELETE FROM players')
+        
+        # Insert new players
+        db.executemany('''
+            INSERT INTO players 
+            (name, position, nationality, age, team, league, appearances, starts, market_value, market_value_display, last_updated)
+            VALUES 
+            (:name, :position, :nationality, :age, :team, :league, :appearances, :starts, :market_value, :market_value_display, :last_updated)
+        ''', [dict(p, 
+                   league='Premier League',
+                   last_updated=datetime.now().strftime('%Y-%m-%d')) for p in players_data])
+        
+        db.commit()
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -486,7 +3064,7 @@ def search_players():
     with closing(get_db()) as db:
         # First get all matching players
         players = db.execute('''
-            SELECT DISTINCT id, name, team, league, position, age, nation, market_value_display 
+            SELECT DISTINCT id, name, team, league, position, age, nationality as nation, market_value_display 
             FROM players 
             WHERE LOWER(name) LIKE ?
             ORDER BY 
@@ -539,7 +3117,7 @@ def check_guess():
         guessed_player = dict(guessed_player)
         
         feedback = {
-            'nation': guessed_player['nation'] == daily_player['nation'],
+            'nation': guessed_player['nationality'] == daily_player['nationality'],
             'league': guessed_player['league'] == daily_player['league'],
             'team': guessed_player['team'] == daily_player['team'],
             'position': {
@@ -600,6 +3178,9 @@ def update_players():
     })
 
 if __name__ == '__main__':
+    # Initialize database
+    setup_database()
+    
     # Make sure the data directory exists
     os.makedirs('data', exist_ok=True)
     # Run the Flask app on port 5002 instead of 5001
